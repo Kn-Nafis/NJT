@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,42 +7,77 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <!-- =========================
+      1) PASSWORD LOCK OVERLAY
+  ========================== -->
+  <div class="lockOverlay" id="lockOverlay" aria-hidden="false">
+    <div class="lockCard" role="dialog" aria-modal="true" aria-label="Unlock screen">
+      <div class="lockBadge">🔒 Private</div>
+      <h2 class="lockTitle">Only for my favorite person ❤️</h2>
+      <p class="lockSub">Enter our secret code to open</p>
+
+      <form class="lockForm" id="lockForm">
+        <input class="lockInput" id="lockInput" type="password" placeholder="Enter secret..." autocomplete="off" />
+        <button class="btn primary" type="submit">Unlock ✨</button>
+      </form>
+
+      <p class="lockHint" id="lockHint" aria-live="polite"></p>
+      <p class="lockSmall">Tip: secret is inside the JS.</p>
+    </div>
+  </div>
+
   <!-- Floating hearts background -->
   <div class="hearts" aria-hidden="true">
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
   </div>
 
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas" class="confettiCanvas" aria-hidden="true"></canvas>
+
+  <!-- Cursor hearts layer -->
+  <div class="cursorHearts" id="cursorHearts" aria-hidden="true"></div>
+
+  <!-- Floating "Love note" button -->
+  <button class="floatLove" id="floatLove" type="button" aria-label="Show a love note">💌</button>
+
+  <!-- Love note toast -->
+  <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+
   <!-- Top nav -->
   <header class="topbar">
     <div class="brand">My Beloved</div>
+
     <nav class="nav" aria-label="Primary">
       <a href="#story">Our Story</a>
       <a href="#reasons">Reasons</a>
+      <a href="#openwhen">Open When</a>
+      <a href="#distance">Distance</a>
+      <a href="#mood">Mood</a>
+      <a href="#slideshow">Slideshow</a>
       <a href="#gallery">Gallery</a>
       <a href="#letter">Letter</a>
       <a href="#diary">Diary</a>
     </nav>
-    <button class="musicBtn" id="musicBtn" type="button" aria-label="Toggle music">
-      ♫
-    </button>
+
+    <div class="topActions">
+      <button class="toggleBtn" id="themeBtn" type="button" aria-label="Toggle theme">🌙</button>
+      <button class="musicBtn" id="musicBtn" type="button" aria-label="Toggle music">♫</button>
+    </div>
   </header>
 
   <!-- Hero -->
   <section class="hero">
     <div class="heroOverlay"></div>
-
-    <!-- Replace this image with your best photo -->
     <img class="heroImg" src="g0.jpg" alt="A romantic background" />
 
     <div class="heroContent">
       <p class="smallTag">A little gift, made with love</p>
 
-      <!-- CHANGE NAME HERE -->
       <h1>Happy Valentine’s Day, <span class="name">JAAN ❤️</span></h1>
 
       <p class="heroText">
@@ -56,14 +91,31 @@
       </div>
 
       <div class="countdownCard">
-        <div class="countTitle">Our Love Timer</div>
+        <div class="countTopRow">
+          <div>
+            <div class="countTitle">Our Love Timer</div>
+            <p class="countHint">Since the day you became my favorite person.</p>
+          </div>
+        </div>
+
         <div class="countGrid">
           <div class="countBox"><div class="countNum" id="days">0</div><div class="countLbl">Days</div></div>
           <div class="countBox"><div class="countNum" id="hours">0</div><div class="countLbl">Hours</div></div>
           <div class="countBox"><div class="countNum" id="mins">0</div><div class="countLbl">Minutes</div></div>
           <div class="countBox"><div class="countNum" id="secs">0</div><div class="countLbl">Seconds</div></div>
         </div>
-        <p class="countHint">Since the day you became my favorite person.</p>
+
+        <!-- Love meter -->
+        <div class="meterWrap">
+          <div class="meterTitle">
+            Love Level:
+            <span class="meterValue" id="meterValue">0%</span>
+          </div>
+          <div class="meterBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="meterFill" id="meterFill"></div>
+          </div>
+          <p class="meterHint">It grows every second… because my love doesn’t stop.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -158,6 +210,155 @@
           <h3>Just… You</h3>
           <p>You are my favorite place to be.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+      FEATURE #1: OPEN WHEN LETTERS
+  ========================== -->
+  <section class="section" id="openwhen">
+    <div class="container">
+      <h2 class="sectionTitle">Open When…</h2>
+      <p class="sectionSub">Little letters for the exact moment you need them.</p>
+
+      <div class="openWhenGrid" id="openWhenGrid">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- Open When Modal -->
+    <div class="owModal" id="owModal" aria-hidden="true">
+      <div class="owBackdrop" data-close="true"></div>
+
+      <div class="owPanel" role="dialog" aria-modal="true" aria-label="Open When letter">
+        <button class="lbBtn owClose" id="owClose" type="button" aria-label="Close">✕</button>
+
+        <div class="owTop">
+          <div class="owEmoji" id="owEmoji">💌</div>
+          <div>
+            <div class="owTitle" id="owTitle">Open when...</div>
+            <div class="owSub" id="owSub">A little note for you</div>
+          </div>
+        </div>
+
+        <div class="owBody">
+          <p id="owText"></p>
+        </div>
+
+        <div class="owActions">
+          <button class="btn primary" id="owConfetti" type="button">Hug me  ✨</button>
+          <button class="btn ghost" id="owRandom" type="button">Open another 💌</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+      FEATURE #2: DISTANCE SECTION
+  ========================== -->
+  <section class="section soft" id="distance">
+    <div class="container">
+      <h2 class="sectionTitle">Distance Between Us</h2>
+      <p class="sectionSub">Even if we’re far, you’re still my closest feeling.</p>
+
+      <div class="distanceWrap">
+        <div class="distanceCard">
+          <div class="distanceRow">
+            <div class="distanceLabel">From</div>
+            <div class="distanceValue" id="fromPlace">My Place</div>
+          </div>
+          <div class="distanceRow">
+            <div class="distanceLabel">To</div>
+            <div class="distanceValue" id="toPlace">Your Place</div>
+          </div>
+
+          <div class="distanceBig">
+            <div class="distanceNum" id="distanceKm">0</div>
+            <div class="distanceUnit">KM</div>
+          </div>
+
+          <p class="distanceHint" id="distanceHint">
+            But my heart travels faster than distance ❤️
+          </p>
+
+          <div class="distanceBtns">
+            <button class="btn primary" id="recalcDistance" type="button">Recalculate 📍</button>
+            <a class="btn ghost" id="openMapLink" href="#" target="_blank" rel="noreferrer">Open Map</a>
+          </div>
+
+          <p class="distanceSmall">
+            Hati Hati Papa korte korte chole aso.
+          </p>
+        </div>
+
+        <div class="mapCard">
+          <div class="mapHead">
+            <h3>Our Map</h3>
+            <p>Just a cute view. (Open full map if you want.)</p>
+          </div>
+          <iframe
+            id="osmMap"
+            class="mapFrame"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            title="OpenStreetMap embed"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+      FEATURE #4: MOOD BUTTONS
+  ========================== -->
+  <section class="section" id="mood">
+    <div class="container">
+      <h2 class="sectionTitle">How are you feeling today?</h2>
+      <p class="sectionSub">Pick one… and I’ll reply in my way. 💗</p>
+
+      <div class="moodWrap">
+        <div class="moodBtns">
+          <button class="moodBtn" data-mood="happy" type="button">😊 Happy</button>
+          <button class="moodBtn" data-mood="sad" type="button">😔 Sad</button>
+          <button class="moodBtn" data-mood="angry" type="button">😡 Angry</button>
+          <button class="moodBtn" data-mood="tired" type="button">😴 Tired</button>
+          <button class="moodBtn" data-mood="love" type="button">🥰 In Love</button>
+          <button class="moodBtn reset" data-mood="reset" type="button">Reset ✨</button>
+        </div>
+
+        <div class="moodCard">
+          <div class="moodTitle">My message for you</div>
+          <p class="moodText" id="moodText">
+            Choose a mood and I’ll make the vibe match you.
+          </p>
+          <div class="moodTip">Yo....YOU....YOU...ONLY....you...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+      Slideshow
+  ========================== -->
+  <section class="section" id="slideshow">
+    <div class="container">
+      <h2 class="sectionTitle">Memory Slideshow</h2>
+      <p class="sectionSub">A little film of us… on repeat in my heart.</p>
+
+      <div class="slider" aria-label="Memory slideshow">
+        <div class="sliderFrame">
+          <img id="slideImg" class="slideImg" src="g1.JPG" alt="Slideshow image">
+          <div class="slideCap" id="slideCap">My favorite smile</div>
+        </div>
+
+        <div class="sliderControls">
+          <button class="btn ghost" id="slidePrev" type="button">‹ Prev</button>
+          <button class="btn primary" id="slidePlay" type="button">⏸ Pause</button>
+          <button class="btn ghost" id="slideNext" type="button">Next ›</button>
+        </div>
+
+        <div class="sliderDots" id="sliderDots" aria-label="Slideshow dots"></div>
       </div>
     </div>
   </section>
@@ -291,7 +492,7 @@
     </div>
   </section>
 
-  <!-- Diary (Google Drive / Sheet) -->
+  <!-- Diary -->
   <section class="section" id="diary">
     <div class="container">
       <h2 class="sectionTitle">Our Diary</h2>
@@ -331,15 +532,70 @@
 
   <script>
     // =========================
-    // 0) API URL (YOUR WEB APP)
+    // 0) SETTINGS
     // =========================
+    const SECRET_CODE = "1501";
+
+    // Diary API URL
     const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbzC2tBjAXEMNxbcaMfA1xEBOxNcKT6ALmp0B0SqFVFLLbWGCpR1VP9vS0O1M9XUSAgy1g/exec";
 
-    // =========================
-    // 1) Love timer
-    // =========================
-    const loveStart = new Date("2025-01-13T18:11:59Z"); // Dhaka time converted to UTC
+    // Love start
+    const loveStart = new Date("2025-01-13T18:11:59Z");
 
+    // FEATURE #2: Distance settings (EDIT THESE)
+    // Put your own coordinates + place names here
+    const DIST_FROM = { name: "Banasree", lat: 23.754502, lon: 90.441620 };
+    const DIST_TO   = { name: "Solmid", lat: 23.80129, lon: 90.42949 };
+
+    // =========================
+    // 1) PASSWORD LOCK
+    // =========================
+    const lockOverlay = document.getElementById("lockOverlay");
+    const lockForm = document.getElementById("lockForm");
+    const lockInput = document.getElementById("lockInput");
+    const lockHint = document.getElementById("lockHint");
+
+    function unlock(){
+      lockOverlay.classList.add("hide");
+      lockOverlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("locked");
+      showToast("Welcome, my love ❤️");
+    }
+    document.body.classList.add("locked");
+
+    lockForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = (lockInput.value || "").trim();
+      if (!v){
+        lockHint.textContent = "Type something 🥺";
+        return;
+      }
+      if (v.toLowerCase() === SECRET_CODE.toLowerCase()){
+        lockHint.textContent = "Welcome, my love ❤️";
+        setTimeout(unlock, 450);
+      } else {
+        lockHint.textContent = "Wrong secret 😶 Try again";
+        lockInput.value = "";
+        lockInput.focus();
+      }
+    });
+
+    // =========================
+    // 2) TOAST
+    // =========================
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    // =========================
+    // 3) LOVE TIMER
+    // =========================
     function updateCounter() {
       const now = new Date();
       let diff = Math.max(0, now - loveStart);
@@ -364,11 +620,42 @@
     setInterval(updateCounter, 1000);
 
     // =========================
-    // 2) Surprise button
+    // 4) LOVE METER
+    // =========================
+    const meterFill = document.getElementById("meterFill");
+    const meterValue = document.getElementById("meterValue");
+    const meterBar = document.querySelector(".meterBar");
+
+    let meter = 0;
+    function animateMeterTo(target){
+      const start = meter;
+      const duration = 800;
+      const t0 = performance.now();
+
+      function frame(t){
+        const p = Math.min(1, (t - t0) / duration);
+        meter = Math.round(start + (target - start) * p);
+        const shown = Math.min(100, meter);
+        meterFill.style.width = shown + "%";
+        meterValue.textContent = meter.toLocaleString() + "%";
+        meterBar?.setAttribute("aria-valuenow", String(shown));
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    animateMeterTo(100);
+
+    setInterval(() => {
+      meter += Math.floor(1 + Math.random() * 5);
+      meterValue.textContent = meter.toLocaleString() + "%";
+    }, 1000);
+
+    // =========================
+    // 5) SURPRISE + CONFETTI
     // =========================
     const surpriseBtn = document.getElementById("surpriseBtn");
     const surpriseText = document.getElementById("surpriseText");
-
     const surprises = [
       "You are my favorite person. Always. ❤️",
       "If I had to choose again, I’d still choose you. 💍",
@@ -381,10 +668,11 @@
       const msg = surprises[Math.floor(Math.random() * surprises.length)];
       surpriseText.textContent = msg;
       surpriseText.classList.add("show");
+      fireConfetti();
     });
 
     // =========================
-    // 3) Music toggle
+    // 6) MUSIC TOGGLE
     // =========================
     const musicBtn = document.getElementById("musicBtn");
     const bgMusic = document.getElementById("bgMusic");
@@ -404,12 +692,382 @@
           musicBtn.classList.remove("on");
         }
       } catch (e) {
-        alert("To enable music, add a file named music.mp3 in the same folder as index.html");
+        alert("To enable music, add music.mp3 in the same folder as index.html");
       }
     });
 
     // =========================
-    // 4) Gallery Lightbox
+    // 7) THEME TOGGLE
+    // =========================
+    const themeBtn = document.getElementById("themeBtn");
+    const root = document.documentElement;
+
+    function setTheme(t){
+      root.setAttribute("data-theme", t);
+      themeBtn.textContent = (t === "dark") ? "🌙" : "☀️";
+      localStorage.setItem("theme", t);
+    }
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light" || savedTheme === "dark") setTheme(savedTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    // =========================
+    // 8) FLOATING LOVE NOTE
+    // =========================
+    const floatLove = document.getElementById("floatLove");
+    const loveNotes = [
+      "I miss you. Always. 🥺❤️",
+      "If you’re reading this, smile for me 😘",
+      "You’re the best part of my day 🌙",
+      "Come here… virtual hug 🤍",
+      "One day: us, coffee, sunset, quiet love ☕🌅",
+      "I’m proud of you. Don’t forget that 🫶"
+    ];
+    floatLove.addEventListener("click", () => {
+      showToast(loveNotes[Math.floor(Math.random() * loveNotes.length)]);
+    });
+
+    // =========================
+    // FEATURE #3: CURSOR HEARTS
+    // =========================
+    const cursorHearts = document.getElementById("cursorHearts");
+    let lastHeartTime = 0;
+
+    function spawnHeart(x, y){
+      const now = Date.now();
+      if (now - lastHeartTime < 25) return; // limit
+      lastHeartTime = now;
+
+      const el = document.createElement("span");
+      el.className = "cHeart";
+      el.textContent = Math.random() < 0.25 ? "💗" : "❤";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.fontSize = (12 + Math.random() * 10) + "px";
+      el.style.transform = `translate(-50%, -50%) rotate(${(-18 + Math.random()*36).toFixed(1)}deg)`;
+      cursorHearts.appendChild(el);
+
+      setTimeout(() => el.remove(), 900);
+    }
+
+    document.addEventListener("mousemove", (e) => {
+      if (document.body.classList.contains("locked")) return;
+      spawnHeart(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("touchstart", (e) => {
+      if (document.body.classList.contains("locked")) return;
+      const t = e.touches?.[0];
+      if (!t) return;
+      spawnHeart(t.clientX, t.clientY);
+    }, { passive: true });
+
+    // =========================
+    // FEATURE #1: OPEN WHEN
+    // =========================
+    const owList = [
+      {
+        title: "Open when you feel sad",
+        emoji: "🥺",
+        sub: "I’m here. Always.",
+        text:
+          "Hey love… breathe. You don’t have to be strong all the time. " +
+          "I’m proud of you for surviving days nobody saw. " +
+          "Drink water, rest your head, and remember: you’re loved deeply."
+      },
+      {
+        title: "Open when you miss me",
+        emoji: "🫶",
+        sub: "Come closer (virtually).",
+        text:
+          "I miss you too. If I could, I’d pull you into the longest hug. " +
+          "Until then… read this and feel me near you. " +
+          "You’re my favorite thought."
+      },
+      {
+        title: "Open when you doubt yourself",
+        emoji: "✨",
+        sub: "You’re more than enough.",
+        text:
+          "You are capable. You are smart. You are stronger than you think. " +
+          "Even if you don’t see it today, I see it clearly. " +
+          "Keep going. I’m cheering for you."
+      },
+      {
+        title: "Open when you’re happy",
+        emoji: "😍",
+        sub: "I want to celebrate you!",
+        text:
+          "I LOVE seeing you happy. Your smile is my favorite view. " +
+          "Keep that joy safe— and save some for me too 😌❤️"
+      },
+      {
+        title: "Open when you’re tired",
+        emoji: "😴",
+        sub: "Rest. I’ll hold the world for a bit.",
+        text:
+          "You did enough today. Even small progress is progress. " +
+          "Close your eyes, relax your shoulders, and let yourself rest. " +
+          "I’m proud of you."
+      },
+      {
+        title: "Open when you need motivation",
+        emoji: "🔥",
+        sub: "One more step. That’s all.",
+        text:
+          "You don’t have to do everything at once. Just one step. " +
+          "Start small, keep moving, and watch yourself win. " +
+          "I believe in you."
+      }
+    ];
+
+    const openWhenGrid = document.getElementById("openWhenGrid");
+    openWhenGrid.innerHTML = owList.map((o, i) => `
+      <button class="owCard" type="button" data-idx="${i}">
+        <div class="owCardEmoji">${o.emoji}</div>
+        <div class="owCardTitle">${o.title}</div>
+        <div class="owCardSub">${o.sub}</div>
+        <div class="owCardHint">Tap to open 💌</div>
+      </button>
+    `).join("");
+
+    const owModal = document.getElementById("owModal");
+    const owClose = document.getElementById("owClose");
+    const owEmoji = document.getElementById("owEmoji");
+    const owTitle = document.getElementById("owTitle");
+    const owSub = document.getElementById("owSub");
+    const owText = document.getElementById("owText");
+    const owConfetti = document.getElementById("owConfetti");
+    const owRandom = document.getElementById("owRandom");
+
+    let owIndex = 0;
+
+    function openOW(idx){
+      owIndex = idx;
+      const o = owList[owIndex];
+      owEmoji.textContent = o.emoji;
+      owTitle.textContent = o.title;
+      owSub.textContent = o.sub;
+      owText.textContent = o.text;
+
+      owModal.classList.add("open");
+      owModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeOW(){
+      owModal.classList.remove("open");
+      owModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    openWhenGrid.querySelectorAll(".owCard").forEach(btn => {
+      btn.addEventListener("click", () => openOW(Number(btn.dataset.idx)));
+    });
+
+    owClose.addEventListener("click", closeOW);
+    owModal.addEventListener("click", (e) => {
+      if (e.target.dataset.close === "true") closeOW();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (!owModal.classList.contains("open")) return;
+      if (e.key === "Escape") closeOW();
+    });
+
+    owConfetti.addEventListener("click", () => {
+      fireConfetti(true);
+      showToast("Sending you a warm hug ❤️");
+    });
+
+    owRandom.addEventListener("click", () => {
+      const next = Math.floor(Math.random() * owList.length);
+      openOW(next);
+    });
+
+    // =========================
+    // FEATURE #2: DISTANCE (Haversine)
+    // =========================
+    const fromPlace = document.getElementById("fromPlace");
+    const toPlace = document.getElementById("toPlace");
+    const distanceKmEl = document.getElementById("distanceKm");
+    const distanceHint = document.getElementById("distanceHint");
+    const recalcBtn = document.getElementById("recalcDistance");
+    const openMapLink = document.getElementById("openMapLink");
+    const osmMap = document.getElementById("osmMap");
+
+    function toRad(deg){ return deg * Math.PI / 180; }
+
+    function haversineKm(a, b){
+      const R = 6371;
+      const dLat = toRad(b.lat - a.lat);
+      const dLon = toRad(b.lon - a.lon);
+      const lat1 = toRad(a.lat);
+      const lat2 = toRad(b.lat);
+
+      const s = Math.sin(dLat/2)**2 +
+                Math.sin(dLon/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+      const c = 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1-s));
+      return R * c;
+    }
+
+    function buildOsmEmbed(a, b){
+      // midpoint + bbox
+      const midLat = (a.lat + b.lat) / 2;
+      const midLon = (a.lon + b.lon) / 2;
+
+      const pad = 0.35; // adjust view size
+      const minLat = Math.min(a.lat, b.lat) - pad;
+      const maxLat = Math.max(a.lat, b.lat) + pad;
+      const minLon = Math.min(a.lon, b.lon) - pad;
+      const maxLon = Math.max(a.lon, b.lon) + pad;
+
+      const src =
+        "https://www.openstreetmap.org/export/embed.html" +
+        `?bbox=${encodeURIComponent(minLon)},${encodeURIComponent(minLat)},${encodeURIComponent(maxLon)},${encodeURIComponent(maxLat)}` +
+        `&layer=mapnik&marker=${encodeURIComponent(midLat)},${encodeURIComponent(midLon)}`;
+
+      return src;
+    }
+
+    function buildOsmLink(a, b){
+      const midLat = (a.lat + b.lat) / 2;
+      const midLon = (a.lon + b.lon) / 2;
+      return `https://www.openstreetmap.org/?mlat=${midLat}&mlon=${midLon}#map=7/${midLat}/${midLon}`;
+    }
+
+    function renderDistance(){
+      fromPlace.textContent = DIST_FROM.name;
+      toPlace.textContent = DIST_TO.name;
+
+      const km = haversineKm(DIST_FROM, DIST_TO);
+      distanceKmEl.textContent = km.toFixed(1);
+
+      if (km < 5) distanceHint.textContent = "So close… I can almost hold your hand ❤️";
+      else if (km < 50) distanceHint.textContent = "Not far… just one hug away 🫶";
+      else if (km < 300) distanceHint.textContent = "Distance is real, but love is stronger 💗";
+      else distanceHint.textContent = "Far… but you’re still my closest feeling ❤️";
+
+      openMapLink.href = buildOsmLink(DIST_FROM, DIST_TO);
+      osmMap.src = buildOsmEmbed(DIST_FROM, DIST_TO);
+    }
+    renderDistance();
+    recalcBtn.addEventListener("click", () => {
+      renderDistance();
+      showToast("Distance updated 📍");
+      fireConfetti();
+    });
+
+    // =========================
+    // FEATURE #4: MOOD SYSTEM
+    // =========================
+    const moodText = document.getElementById("moodText");
+    const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
+
+    const moodMessages = {
+      happy: "Your happiness is my favorite sound. Keep smiling… I’m smiling too 😊❤️",
+      sad: "Come here… breathe. You’re not alone, not even for a second 🥺🫶",
+      angry: "It’s okay to feel it. I’m on your side. Let’s calm down together 😤➡️😌",
+      tired: "Rest, love. You did enough today. I’m proud of you 😴❤️",
+      love: "You’re in love? Same. Always. Forever. 🥰💍",
+      reset: "Choose a mood and I’ll match the vibe for you 💗"
+    };
+
+    function setMood(mood){
+      if (mood === "reset"){
+        document.body.removeAttribute("data-mood");
+        moodText.textContent = moodMessages.reset;
+        showToast("Mood reset ✨");
+        return;
+      }
+      document.body.setAttribute("data-mood", mood);
+      moodText.textContent = moodMessages[mood] || moodMessages.reset;
+      showToast("Mood set: " + mood + " 💞");
+    }
+
+    moodBtns.forEach(b => b.addEventListener("click", () => setMood(b.dataset.mood)));
+
+    // =========================
+    // 9) SLIDESHOW
+    // =========================
+    const slides = [
+      { src: "g1.JPG", cap: "My favorite smile" },
+      { src: "g2.JPG", cap: "From this..." },
+      { src: "g3.jpeg", cap: "To this..." },
+      { src: "g7.jpeg", cap: "My calm & my chaos" },
+      { src: "g5.JPG", cap: "Softest memories" },
+      { src: "g6.JPG", cap: "My favorite chapter" }
+    ];
+
+    const slideImg = document.getElementById("slideImg");
+    const slideCap = document.getElementById("slideCap");
+    const slidePrev = document.getElementById("slidePrev");
+    const slideNext = document.getElementById("slideNext");
+    const slidePlay = document.getElementById("slidePlay");
+    const sliderDots = document.getElementById("sliderDots");
+
+    let slideIndex = 0;
+    let slidePlaying = true;
+    let slideTimer = null;
+
+    function renderDots(){
+      sliderDots.innerHTML = slides.map((_, i) =>
+        `<button class="dot ${i===slideIndex?"on":""}" type="button" aria-label="Go to slide ${i+1}"></button>`
+      ).join("");
+
+      Array.from(sliderDots.querySelectorAll(".dot")).forEach((b, i) => {
+        b.addEventListener("click", () => {
+          slideIndex = i;
+          renderSlide();
+          restartSlideTimer();
+        });
+      });
+    }
+
+    function renderSlide(){
+      const s = slides[slideIndex];
+      slideImg.classList.remove("in");
+      setTimeout(() => {
+        slideImg.src = s.src;
+        slideCap.textContent = s.cap;
+        slideImg.classList.add("in");
+        renderDots();
+      }, 120);
+    }
+
+    function nextSlide(){
+      slideIndex = (slideIndex + 1) % slides.length;
+      renderSlide();
+    }
+    function prevSlide(){
+      slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+      renderSlide();
+    }
+
+    function restartSlideTimer(){
+      if (slideTimer) clearInterval(slideTimer);
+      if (!slidePlaying) return;
+      slideTimer = setInterval(nextSlide, 3500);
+    }
+
+    slidePrev.addEventListener("click", () => { prevSlide(); restartSlideTimer(); });
+    slideNext.addEventListener("click", () => { nextSlide(); restartSlideTimer(); });
+
+    slidePlay.addEventListener("click", () => {
+      slidePlaying = !slidePlaying;
+      slidePlay.textContent = slidePlaying ? "⏸ Pause" : "▶ Play";
+      restartSlideTimer();
+    });
+
+    renderSlide();
+    restartSlideTimer();
+
+    // =========================
+    // 10) LIGHTBOX
     // =========================
     const galleryImgs = Array.from(document.querySelectorAll(".gallery img"));
     const lightbox = document.getElementById("lightbox");
@@ -467,7 +1125,7 @@
     });
 
     // =========================
-    // 5) Diary (Google Sheet API)
+    // 11) DIARY API
     // =========================
     const diaryText = document.getElementById("diaryText");
     const saveDiaryBtn = document.getElementById("saveDiaryBtn");
@@ -502,38 +1160,28 @@
       return res.json();
     }
 
-    // ✅ CHANGED: use text/plain to avoid CORS preflight
     async function apiAddNote(text){
-      const payload = {
-        action: "add",
-        text: text.trim()
-      };
-
+      const payload = { action: "add", text: text.trim() };
       const res = await fetch(DIARY_API_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
-
       return res.json();
     }
 
-    // ✅ CHANGED: use text/plain to avoid CORS preflight
     async function apiDeleteNote(id){
       const payload = { action: "delete", id };
-
       const res = await fetch(DIARY_API_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
-
       return res.json();
     }
 
     async function renderDiary(){
       if (!diaryList) return;
-
       diaryList.innerHTML = `<div class="noteItem"><p class="noteText">Loading…</p></div>`;
 
       try{
@@ -597,9 +1245,117 @@
     });
 
     refreshDiaryBtn?.addEventListener("click", renderDiary);
-
-    // initial load
     renderDiary();
+
+    // =========================
+    // 12) EASTER EGG: type "i love you"
+    // =========================
+    let typed = "";
+    const targetPhrase = "i love you";
+    document.addEventListener("keydown", (e) => {
+      if (document.body.classList.contains("locked")) return;
+      if (e.key.length === 1) {
+        typed += e.key.toLowerCase();
+        if (typed.length > 40) typed = typed.slice(-40);
+
+        if (typed.includes(targetPhrase)) {
+          typed = "";
+          fireConfetti(true);
+          showToast("AND I LOVE YOU MORE ❤️✨");
+          document.body.classList.add("pulseLove");
+          setTimeout(() => document.body.classList.remove("pulseLove"), 1100);
+        }
+      }
+    });
+
+    // =========================
+    // 13) CONFETTI (canvas)
+    // =========================
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let confettiPieces = [];
+    let confettiRunning = false;
+
+    function resizeCanvas(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function makePiece(isHearts){
+      const x = Math.random() * canvas.width;
+      const y = -20 - Math.random() * 100;
+      const size = 6 + Math.random() * 10;
+      const speed = 2 + Math.random() * 4;
+      const drift = -1 + Math.random() * 2;
+      const rot = Math.random() * Math.PI * 2;
+      const rotSpd = (-0.08 + Math.random() * 0.16);
+      const shape = isHearts ? "heart" : (Math.random() < 0.3 ? "heart" : "rect");
+      return { x, y, size, speed, drift, rot, rotSpd, shape, life: 0 };
+    }
+
+    function drawHeart(x, y, s, rot){
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.scale(s/18, s/18);
+      ctx.beginPath();
+      ctx.moveTo(0, 6);
+      ctx.bezierCurveTo(0, 0, -10, 0, -10, 6);
+      ctx.bezierCurveTo(-10, 12, 0, 16, 0, 22);
+      ctx.bezierCurveTo(0, 16, 10, 12, 10, 6);
+      ctx.bezierCurveTo(10, 0, 0, 0, 0, 6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function fireConfetti(heartsMode=false){
+      resizeCanvas();
+      confettiPieces = [];
+      const count = heartsMode ? 120 : 90;
+      for (let i=0; i<count; i++) confettiPieces.push(makePiece(heartsMode));
+      if (!confettiRunning){
+        confettiRunning = true;
+        requestAnimationFrame(confettiLoop);
+      }
+    }
+
+    function confettiLoop(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const colors = ["#ff4d8d", "#ff7aa6", "#ffd1e1", "#ffffff"];
+
+      confettiPieces.forEach(p => {
+        p.life += 1;
+        p.y += p.speed;
+        p.x += p.drift;
+        p.rot += p.rotSpd;
+
+        const c = colors[Math.floor(Math.random() * colors.length)];
+        ctx.fillStyle = c;
+
+        if (p.shape === "rect"){
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+          ctx.restore();
+        } else {
+          drawHeart(p.x, p.y, p.size, p.rot);
+        }
+      });
+
+      confettiPieces = confettiPieces.filter(p => p.y < canvas.height + 40 && p.life < 220);
+
+      if (confettiPieces.length > 0){
+        requestAnimationFrame(confettiLoop);
+      } else {
+        confettiRunning = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
   </script>
 </body>
 </html>
