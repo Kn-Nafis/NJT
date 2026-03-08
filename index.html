@@ -11,7 +11,6 @@
 </head>
 
 <body>
-  <!-- Password Lock -->
   <div class="lockOverlay" id="lockOverlay" aria-hidden="false">
     <div class="lockCard" role="dialog" aria-modal="true" aria-label="Unlock screen">
       <div class="lockBadge">🔒 Private</div>
@@ -24,29 +23,20 @@
       </form>
 
       <p class="lockHint" id="lockHint" aria-live="polite"></p>
-      <p class="lockSmall">Wait a minute..Who are you?</p>
+      <p class="lockSmall">Tip: secret is inside the JS.</p>
     </div>
   </div>
 
-  <!-- Floating hearts -->
   <div class="hearts" aria-hidden="true">
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
   </div>
 
-  <!-- Confetti canvas -->
   <canvas id="confettiCanvas" class="confettiCanvas" aria-hidden="true"></canvas>
-
-  <!-- Cursor hearts -->
   <div class="cursorHearts" id="cursorHearts" aria-hidden="true"></div>
-
-  <!-- Floating love button -->
   <button class="floatLove" id="floatLove" type="button" aria-label="Show a love note">💌</button>
-
-  <!-- Toast -->
   <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
-  <!-- Top nav -->
   <header class="topbar">
     <div class="brand">My Beloved</div>
 
@@ -69,7 +59,6 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="heroOverlay"></div>
     <img class="heroImg" src="g0.jpg" alt="A romantic background" />
@@ -118,7 +107,6 @@
     </div>
   </section>
 
-  <!-- Story -->
   <section class="section" id="story">
     <div class="container">
       <h2 class="sectionTitle">Our Story</h2>
@@ -166,7 +154,6 @@
     </div>
   </section>
 
-  <!-- Reasons -->
   <section class="section soft" id="reasons">
     <div class="container">
       <h2 class="sectionTitle">Reasons I Love You</h2>
@@ -212,7 +199,6 @@
     </div>
   </section>
 
-  <!-- Open When -->
   <section class="section" id="openwhen">
     <div class="container">
       <h2 class="sectionTitle">Open When…</h2>
@@ -247,7 +233,6 @@
     </div>
   </section>
 
-  <!-- Distance -->
   <section class="section soft" id="distance">
     <div class="container">
       <h2 class="sectionTitle">Distance Between Us</h2>
@@ -301,7 +286,6 @@
     </div>
   </section>
 
-  <!-- Mood -->
   <section class="section" id="mood">
     <div class="container">
       <h2 class="sectionTitle">How are you feeling today?</h2>
@@ -328,7 +312,6 @@
     </div>
   </section>
 
-  <!-- Slideshow -->
   <section class="section" id="slideshow">
     <div class="container">
       <h2 class="sectionTitle">Memory Slideshow</h2>
@@ -351,7 +334,6 @@
     </div>
   </section>
 
-  <!-- Gallery -->
   <section class="section" id="gallery">
     <div class="container">
       <h2 class="sectionTitle">Our Moments</h2>
@@ -417,7 +399,6 @@
     </div>
   </section>
 
-  <!-- Letter -->
   <section class="section soft" id="letter">
     <div class="container">
       <h2 class="sectionTitle">A Letter For You</h2>
@@ -477,7 +458,6 @@
     </div>
   </section>
 
-  <!-- Memory Calendar -->
   <section class="section soft" id="calendar">
     <div class="container">
       <h2 class="sectionTitle">Our Memory Calendar</h2>
@@ -542,7 +522,6 @@
     </div>
   </section>
 
-  <!-- Diary -->
   <section class="section" id="diary">
     <div class="container">
       <h2 class="sectionTitle">Our Diary</h2>
@@ -575,23 +554,17 @@
     <p>Made with ❤️ just for you.</p>
   </footer>
 
-  <!-- Music -->
   <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg" />
   </audio>
 
   <script>
     const SECRET_CODE = "1501";
-
-    // Replace with your deployed Apps Script URL
-    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbx0D5W4sJOuxIZaFzTH3S0vju8AuMJCkryniobT-GtQeAJOJE5-w048y5Tr1ar94M2vug/exec";
-
+    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbzxZhgODQgQP2BTBS1D2v4NXQNO2if5KRPxiPJwj_R_alAiA_wD-xx-nm0KJNg86YF1BQ/exec";
     const loveStart = new Date("2025-01-13T18:11:59Z");
-
     const DIST_FROM = { name: "Banasree", lat: 23.754502, lon: 90.441620 };
     const DIST_TO   = { name: "Solmid", lat: 23.80129032537606, lon: 90.42948967046743 };
 
-    // Password lock
     const lockOverlay = document.getElementById("lockOverlay");
     const lockForm = document.getElementById("lockForm");
     const lockInput = document.getElementById("lockInput");
@@ -625,7 +598,6 @@
       }
     });
 
-    // Toast
     const toast = document.getElementById("toast");
     let toastTimer = null;
 
@@ -636,7 +608,6 @@
       toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    // Love timer
     function updateCounter() {
       const now = new Date();
       let diff = Math.max(0, now - loveStart);
@@ -660,7 +631,6 @@
     updateCounter();
     setInterval(updateCounter, 1000);
 
-    // Love meter
     const meterFill = document.getElementById("meterFill");
     const meterValue = document.getElementById("meterValue");
     const meterBar = document.querySelector(".meterBar");
@@ -682,7 +652,6 @@
       }
       requestAnimationFrame(frame);
     }
-
     animateMeterTo(100);
 
     setInterval(() => {
@@ -690,7 +659,6 @@
       meterValue.textContent = meter.toLocaleString() + "%";
     }, 1000);
 
-    // Surprise
     const surpriseBtn = document.getElementById("surpriseBtn");
     const surpriseText = document.getElementById("surpriseText");
     const surprises = [
@@ -708,7 +676,6 @@
       fireConfetti();
     });
 
-    // Music
     const musicBtn = document.getElementById("musicBtn");
     const bgMusic = document.getElementById("bgMusic");
     let musicOn = false;
@@ -731,7 +698,6 @@
       }
     });
 
-    // Theme
     const themeBtn = document.getElementById("themeBtn");
     const root = document.documentElement;
 
@@ -749,7 +715,6 @@
       setTheme(current === "dark" ? "light" : "dark");
     });
 
-    // Floating love note
     const floatLove = document.getElementById("floatLove");
     const loveNotes = [
       "I miss you. Always. 🥺❤️",
@@ -763,7 +728,6 @@
       showToast(loveNotes[Math.floor(Math.random() * loveNotes.length)]);
     });
 
-    // Cursor hearts
     const cursorHearts = document.getElementById("cursorHearts");
     let lastHeartTime = 0;
 
@@ -796,7 +760,6 @@
       spawnHeart(t.clientX, t.clientY);
     }, { passive: true });
 
-    // Open When
     const owList = [
       {
         title: "Open when you feel sad",
@@ -899,7 +862,6 @@
       openOW(next);
     });
 
-    // Distance + Google Map
     const fromPlace = document.getElementById("fromPlace");
     const toPlace = document.getElementById("toPlace");
     const distanceKmEl = document.getElementById("distanceKm");
@@ -956,7 +918,6 @@
       fireConfetti();
     });
 
-    // Mood
     const moodText = document.getElementById("moodText");
     const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
 
@@ -983,7 +944,6 @@
 
     moodBtns.forEach(b => b.addEventListener("click", () => setMood(b.dataset.mood)));
 
-    // Slideshow
     const slides = [
       { src: "g1.JPG", cap: "My favorite smile" },
       { src: "g2.JPG", cap: "From this..." },
@@ -1057,7 +1017,6 @@
     renderSlide();
     restartSlideTimer();
 
-    // Lightbox
     const galleryImgs = Array.from(document.querySelectorAll(".gallery img"));
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
@@ -1113,7 +1072,6 @@
       if (e.key === "ArrowRight") showNext();
     });
 
-    // Helpers
     function escapeHtmlSafe(str){
       return String(str)
         .replaceAll("&","&amp;")
@@ -1147,7 +1105,15 @@
       });
     }
 
-    // Memory Calendar
+    function normalizeMemoryDate(value){
+      if (!value) return "";
+      const raw = String(value);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+      const d = new Date(raw);
+      if (isNaN(d.getTime())) return raw.slice(0, 10);
+      return formatDateKey(d);
+    }
+
     const calendarGrid = document.getElementById("calendarGrid");
     const calendarMonth = document.getElementById("calendarMonth");
     const calPrev = document.getElementById("calPrev");
@@ -1201,8 +1167,9 @@
     function getMemoryMap(){
       const map = {};
       memories.forEach(m => {
-        if (!map[m.memoryDate]) map[m.memoryDate] = [];
-        map[m.memoryDate].push(m);
+        const normalized = normalizeMemoryDate(m.memoryDate);
+        if (!map[normalized]) map[normalized] = [];
+        map[normalized].push({ ...m, memoryDate: normalized });
       });
       return map;
     }
@@ -1259,6 +1226,10 @@
 
     function renderMemoryList(){
       const list = memories
+        .map(m => ({
+          ...m,
+          memoryDate: normalizeMemoryDate(m.memoryDate)
+        }))
         .filter(m => m.memoryDate === selectedMemoryDate)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -1313,7 +1284,7 @@
         renderMemoryList();
         updateSelectedMemoryDateUI();
         setMemoryHint("");
-      }catch{
+      }catch(err){
         renderCalendar();
         memoryList.innerHTML = `
           <div class="noteItem">
@@ -1321,6 +1292,7 @@
           </div>
         `;
         setMemoryHint("Could not load memories ❌");
+        console.error(err);
       }
     }
 
@@ -1363,7 +1335,6 @@
 
     refreshMemoryBtn.addEventListener("click", loadMemories);
 
-    // Diary
     const diaryText = document.getElementById("diaryText");
     const saveDiaryBtn = document.getElementById("saveDiaryBtn");
     const refreshDiaryBtn = document.getElementById("refreshDiaryBtn");
@@ -1464,7 +1435,6 @@
 
     refreshDiaryBtn.addEventListener("click", renderDiary);
 
-    // Easter egg
     let typed = "";
     const targetPhrase = "i love you";
     document.addEventListener("keydown", (e) => {
@@ -1483,7 +1453,6 @@
       }
     });
 
-    // Confetti
     const canvas = document.getElementById("confettiCanvas");
     const ctx = canvas.getContext("2d");
     let confettiPieces = [];
