@@ -26,7 +26,7 @@
       </form>
 
       <p class="lockHint" id="lockHint" aria-live="polite"></p>
-      <p class="lockSmall">Tip: secret is inside the JS.</p>
+      <p class="lockSmall">Wait a minute... Who Are You?</p>
     </div>
   </div>
 
@@ -61,6 +61,7 @@
       <a href="#slideshow">Slideshow</a>
       <a href="#gallery">Gallery</a>
       <a href="#letter">Letter</a>
+      <a href="#calendar">Calendar</a>
       <a href="#diary">Diary</a>
     </nav>
 
@@ -247,7 +248,7 @@
         </div>
 
         <div class="owActions">
-          <button class="btn primary" id="owConfetti" type="button">Hug me  ✨</button>
+          <button class="btn primary" id="owConfetti" type="button">Hug me ✨</button>
           <button class="btn ghost" id="owRandom" type="button">Open another 💌</button>
         </div>
       </div>
@@ -338,9 +339,7 @@
     </div>
   </section>
 
-  <!-- =========================
-      Slideshow
-  ========================== -->
+  <!-- Slideshow -->
   <section class="section" id="slideshow">
     <div class="container">
       <h2 class="sectionTitle">Memory Slideshow</h2>
@@ -471,7 +470,7 @@
         <div class="miniCard">
           <h3>In My Opinion 🎧</h3>
           <p>This only belongs to you.</p>
-          <code class="codeLine">Click Here-></code>
+          <code class="codeLine">Click Here-&gt;</code>
           <a class="btn ghost"
              href="https://www.youtube.com/watch?v=cNGjD0VG4R8&list=RDcNGjD0VG4R8&start_radio=1"
              target="_blank" rel="noreferrer">
@@ -487,6 +486,71 @@
             <li>1 hour walk / tea / coffee with you</li>
             <li>Endless memories ❤️</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Memory Calendar -->
+  <section class="section soft" id="calendar">
+    <div class="container">
+      <h2 class="sectionTitle">Our Memory Calendar</h2>
+      <p class="sectionSub">
+        Mark special dates and keep little memories safe forever. ❤️
+      </p>
+
+      <div class="calendarWrap">
+        <div class="calendarCard">
+          <div class="calendarHead">
+            <button class="calNavBtn" id="calPrev" type="button">‹</button>
+            <div class="calendarMonth" id="calendarMonth">Month Year</div>
+            <button class="calNavBtn" id="calNext" type="button">›</button>
+          </div>
+
+          <div class="calendarWeekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+
+          <div class="calendarGrid" id="calendarGrid"></div>
+
+          <p class="calendarLegend">
+            <span class="legendDot"></span> Dates with saved memories
+          </p>
+        </div>
+
+        <div class="memoryCard">
+          <div class="memoryTop">
+            <h3 class="memoryTitle">Add a Memory</h3>
+            <div class="memorySelectedDate" id="selectedMemoryDateText">Selected: --</div>
+          </div>
+
+          <label class="diaryLabel" for="memoryText">Memory for this date</label>
+          <textarea
+            id="memoryText"
+            class="diaryText"
+            placeholder="Write a special memory for this date... ❤️"
+            rows="6"
+          ></textarea>
+
+          <div class="diaryActions">
+            <button class="btn primary" id="saveMemoryBtn" type="button">Save Memory 📅</button>
+            <button class="btn ghost" id="refreshMemoryBtn" type="button">Refresh</button>
+          </div>
+
+          <p class="diaryHint" id="memoryHint" aria-live="polite"></p>
+
+          <div class="memoryListWrap">
+            <div class="diaryListHeader">
+              <h3 class="diaryListTitle">Saved Memories</h3>
+            </div>
+            <div class="memoryList" id="memoryList"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -536,16 +600,15 @@
     // =========================
     const SECRET_CODE = "1501";
 
-    // Diary API URL
-    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbzC2tBjAXEMNxbcaMfA1xEBOxNcKT6ALmp0B0SqFVFLLbWGCpR1VP9vS0O1M9XUSAgy1g/exec";
+    // Diary + Calendar API URL
+    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbwgeYfhH2iMIaUTt0djwMihKtFIgEtC9z0IvLnGEGYZ0N8IFV9chzjiOURb0zope-dZjw/exec";
 
     // Love start
     const loveStart = new Date("2025-01-13T18:11:59Z");
 
-    // FEATURE #2: Distance settings (EDIT THESE)
-    // Put your own coordinates + place names here
+    // Distance settings
     const DIST_FROM = { name: "Banasree", lat: 23.754502, lon: 90.441620 };
-    const DIST_TO   = { name: "Solmid", lat: 23.80129, lon: 90.42949 };
+    const DIST_TO   = { name: "Solmid", lat: 23.80129032537606, lon: 90.42948967046743 };
 
     // =========================
     // 1) PASSWORD LOCK
@@ -561,6 +624,7 @@
       document.body.classList.remove("locked");
       showToast("Welcome, my love ❤️");
     }
+
     document.body.classList.add("locked");
 
     lockForm.addEventListener("submit", (e) => {
@@ -733,14 +797,14 @@
     });
 
     // =========================
-    // FEATURE #3: CURSOR HEARTS
+    // 9) CURSOR HEARTS
     // =========================
     const cursorHearts = document.getElementById("cursorHearts");
     let lastHeartTime = 0;
 
     function spawnHeart(x, y){
       const now = Date.now();
-      if (now - lastHeartTime < 25) return; // limit
+      if (now - lastHeartTime < 25) return;
       lastHeartTime = now;
 
       const el = document.createElement("span");
@@ -768,7 +832,7 @@
     }, { passive: true });
 
     // =========================
-    // FEATURE #1: OPEN WHEN
+    // 10) OPEN WHEN
     // =========================
     const owList = [
       {
@@ -890,7 +954,7 @@
     });
 
     // =========================
-    // FEATURE #2: DISTANCE (Haversine)
+    // DISTANCE
     // =========================
     const fromPlace = document.getElementById("fromPlace");
     const toPlace = document.getElementById("toPlace");
@@ -916,22 +980,18 @@
     }
 
     function buildOsmEmbed(a, b){
-      // midpoint + bbox
       const midLat = (a.lat + b.lat) / 2;
       const midLon = (a.lon + b.lon) / 2;
 
-      const pad = 0.35; // adjust view size
+      const pad = 0.35;
       const minLat = Math.min(a.lat, b.lat) - pad;
       const maxLat = Math.max(a.lat, b.lat) + pad;
       const minLon = Math.min(a.lon, b.lon) - pad;
       const maxLon = Math.max(a.lon, b.lon) + pad;
 
-      const src =
-        "https://www.openstreetmap.org/export/embed.html" +
+      return "https://www.openstreetmap.org/export/embed.html" +
         `?bbox=${encodeURIComponent(minLon)},${encodeURIComponent(minLat)},${encodeURIComponent(maxLon)},${encodeURIComponent(maxLat)}` +
         `&layer=mapnik&marker=${encodeURIComponent(midLat)},${encodeURIComponent(midLon)}`;
-
-      return src;
     }
 
     function buildOsmLink(a, b){
@@ -956,6 +1016,7 @@
       osmMap.src = buildOsmEmbed(DIST_FROM, DIST_TO);
     }
     renderDistance();
+
     recalcBtn.addEventListener("click", () => {
       renderDistance();
       showToast("Distance updated 📍");
@@ -963,7 +1024,7 @@
     });
 
     // =========================
-    // FEATURE #4: MOOD SYSTEM
+    // MOOD SYSTEM
     // =========================
     const moodText = document.getElementById("moodText");
     const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
@@ -992,7 +1053,7 @@
     moodBtns.forEach(b => b.addEventListener("click", () => setMood(b.dataset.mood)));
 
     // =========================
-    // 9) SLIDESHOW
+    // SLIDESHOW
     // =========================
     const slides = [
       { src: "g1.JPG", cap: "My favorite smile" },
@@ -1043,6 +1104,7 @@
       slideIndex = (slideIndex + 1) % slides.length;
       renderSlide();
     }
+
     function prevSlide(){
       slideIndex = (slideIndex - 1 + slides.length) % slides.length;
       renderSlide();
@@ -1067,7 +1129,7 @@
     restartSlideTimer();
 
     // =========================
-    // 10) LIGHTBOX
+    // LIGHTBOX
     // =========================
     const galleryImgs = Array.from(document.querySelectorAll(".gallery img"));
     const lightbox = document.getElementById("lightbox");
@@ -1125,7 +1187,246 @@
     });
 
     // =========================
-    // 11) DIARY API
+    // MEMORY CALENDAR
+    // =========================
+    const calendarGrid = document.getElementById("calendarGrid");
+    const calendarMonth = document.getElementById("calendarMonth");
+    const calPrev = document.getElementById("calPrev");
+    const calNext = document.getElementById("calNext");
+    const selectedMemoryDateText = document.getElementById("selectedMemoryDateText");
+    const memoryText = document.getElementById("memoryText");
+    const saveMemoryBtn = document.getElementById("saveMemoryBtn");
+    const refreshMemoryBtn = document.getElementById("refreshMemoryBtn");
+    const memoryList = document.getElementById("memoryList");
+    const memoryHint = document.getElementById("memoryHint");
+
+    let calDate = new Date();
+    calDate.setDate(1);
+
+    let selectedMemoryDate = formatDateKey(new Date());
+    let memories = [];
+
+    function setMemoryHint(msg){
+      if (!memoryHint) return;
+      memoryHint.textContent = msg || "";
+    }
+
+    function formatDateKey(dateObj){
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function formatPrettyDate(dateStr){
+      const d = new Date(dateStr + "T00:00:00");
+      return d.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    async function apiListMemories(){
+      const res = await fetch(`${DIARY_API_URL}?action=listMemories`, { method: "GET" });
+      return res.json();
+    }
+
+    async function apiAddMemory(memoryDate, text){
+      const payload = { action: "addMemory", memoryDate, text: text.trim() };
+      const res = await fetch(DIARY_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      return res.json();
+    }
+
+    async function apiDeleteMemory(id){
+      const payload = { action: "deleteMemory", id };
+      const res = await fetch(DIARY_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      return res.json();
+    }
+
+    function updateSelectedMemoryDateUI(){
+      selectedMemoryDateText.textContent = `Selected: ${formatPrettyDate(selectedMemoryDate)}`;
+    }
+
+    function getMemoryMap(){
+      const map = {};
+      memories.forEach(m => {
+        if (!map[m.memoryDate]) map[m.memoryDate] = [];
+        map[m.memoryDate].push(m);
+      });
+      return map;
+    }
+
+    function renderCalendar(){
+      if (!calendarGrid) return;
+
+      const year = calDate.getFullYear();
+      const month = calDate.getMonth();
+
+      calendarMonth.textContent = calDate.toLocaleDateString(undefined, {
+        month: "long",
+        year: "numeric"
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const todayKey = formatDateKey(new Date());
+      const memoryMap = getMemoryMap();
+
+      let html = "";
+
+      for (let i = 0; i < firstDay; i++) {
+        html += `<div class="calCell empty"></div>`;
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const hasMemory = !!memoryMap[dateKey];
+        const isToday = dateKey === todayKey;
+        const isSelected = dateKey === selectedMemoryDate;
+
+        html += `
+          <button
+            class="calCell calDay ${hasMemory ? "hasMemory" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}"
+            type="button"
+            data-date="${dateKey}"
+          >
+            <span class="calNum">${day}</span>
+            ${hasMemory ? '<span class="calMark"></span>' : ""}
+          </button>
+        `;
+      }
+
+      calendarGrid.innerHTML = html;
+
+      calendarGrid.querySelectorAll(".calDay").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedMemoryDate = btn.dataset.date;
+          updateSelectedMemoryDateUI();
+          renderCalendar();
+          renderMemoryList();
+        });
+      });
+    }
+
+    function renderMemoryList(){
+      if (!memoryList) return;
+
+      const list = memories
+        .filter(m => m.memoryDate === selectedMemoryDate)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      if (list.length === 0){
+        memoryList.innerHTML = `
+          <div class="noteItem">
+            <p class="noteText">No memory saved for ${escapeHtmlSafe(formatPrettyDate(selectedMemoryDate))} yet. ❤️</p>
+          </div>
+        `;
+        return;
+      }
+
+      memoryList.innerHTML = list.map(m => `
+        <div class="noteItem" data-id="${escapeHtmlSafe(m.id)}">
+          <div class="noteTop">
+            <div>
+              <div class="noteDate">${escapeHtmlSafe(formatPrettyDate(m.memoryDate))}</div>
+              <div class="noteDate">${escapeHtmlSafe(formatDate(m.createdAt))}</div>
+            </div>
+            <button class="noteDel memoryDel" type="button" aria-label="Delete memory">🗑</button>
+          </div>
+          <p class="noteText">${escapeHtmlSafe(m.text).replaceAll("\n","<br>")}</p>
+        </div>
+      `).join("");
+
+      memoryList.querySelectorAll(".noteItem").forEach(item => {
+        const id = item.getAttribute("data-id");
+        const delBtn = item.querySelector(".memoryDel");
+
+        delBtn.addEventListener("click", async () => {
+          try{
+            setMemoryHint("Deleting memory…");
+            const data = await apiDeleteMemory(id);
+            if (!data.ok) throw new Error(data.error || "Delete failed");
+            setMemoryHint("Memory deleted ✅");
+            await loadMemories();
+          }catch(err){
+            setMemoryHint("Delete failed ❌");
+          }
+        });
+      });
+    }
+
+    async function loadMemories(){
+      try{
+        setMemoryHint("Loading memories…");
+        const data = await apiListMemories();
+        if (!data.ok) throw new Error(data.error || "Load failed");
+
+        memories = data.memories || [];
+        renderCalendar();
+        renderMemoryList();
+        updateSelectedMemoryDateUI();
+        setMemoryHint("");
+      }catch(err){
+        renderCalendar();
+        memoryList.innerHTML = `
+          <div class="noteItem">
+            <p class="noteText">Could not load memories. Check API URL / deployment access.</p>
+          </div>
+        `;
+        setMemoryHint("Could not load memories ❌");
+      }
+    }
+
+    calPrev?.addEventListener("click", () => {
+      calDate.setMonth(calDate.getMonth() - 1);
+      renderCalendar();
+    });
+
+    calNext?.addEventListener("click", () => {
+      calDate.setMonth(calDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    saveMemoryBtn?.addEventListener("click", async () => {
+      const text = memoryText.value.trim();
+
+      if (!selectedMemoryDate){
+        setMemoryHint("Select a date first 📅");
+        return;
+      }
+
+      if (!text){
+        setMemoryHint("Write a memory first ❤️");
+        return;
+      }
+
+      try{
+        setMemoryHint("Saving memory…");
+        const data = await apiAddMemory(selectedMemoryDate, text);
+        if (!data.ok) throw new Error(data.error || "Save failed");
+
+        memoryText.value = "";
+        setMemoryHint("Memory saved ❤️");
+        await loadMemories();
+        fireConfetti(true);
+      }catch(err){
+        setMemoryHint("Save failed ❌");
+      }
+    });
+
+    refreshMemoryBtn?.addEventListener("click", loadMemories);
+
+    // =========================
+    // DIARY API
     // =========================
     const diaryText = document.getElementById("diaryText");
     const saveDiaryBtn = document.getElementById("saveDiaryBtn");
@@ -1245,10 +1546,12 @@
     });
 
     refreshDiaryBtn?.addEventListener("click", renderDiary);
+
     renderDiary();
+    loadMemories();
 
     // =========================
-    // 12) EASTER EGG: type "i love you"
+    // EASTER EGG: type "i love you"
     // =========================
     let typed = "";
     const targetPhrase = "i love you";
@@ -1269,7 +1572,7 @@
     });
 
     // =========================
-    // 13) CONFETTI (canvas)
+    // CONFETTI (canvas)
     // =========================
     const canvas = document.getElementById("confettiCanvas");
     const ctx = canvas.getContext("2d");
