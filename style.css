@@ -957,7 +957,7 @@ html[data-theme="light"] .diaryText{
 html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
 
 .diaryListCard{
-  height: 560px;
+  height: 420px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
