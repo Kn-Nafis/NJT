@@ -11,9 +11,7 @@
 </head>
 
 <body>
-  <!-- =========================
-      1) PASSWORD LOCK OVERLAY
-  ========================== -->
+  <!-- Password Lock -->
   <div class="lockOverlay" id="lockOverlay" aria-hidden="false">
     <div class="lockCard" role="dialog" aria-modal="true" aria-label="Unlock screen">
       <div class="lockBadge">🔒 Private</div>
@@ -26,11 +24,11 @@
       </form>
 
       <p class="lockHint" id="lockHint" aria-live="polite"></p>
-      <p class="lockSmall">Wait a minute... Who Are You?</p>
+      <p class="lockSmall">Wait a minute..Who are you?</p>
     </div>
   </div>
 
-  <!-- Floating hearts background -->
+  <!-- Floating hearts -->
   <div class="hearts" aria-hidden="true">
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
     <span>❤</span><span>❤</span><span>❤</span><span>❤</span><span>❤</span>
@@ -39,13 +37,13 @@
   <!-- Confetti canvas -->
   <canvas id="confettiCanvas" class="confettiCanvas" aria-hidden="true"></canvas>
 
-  <!-- Cursor hearts layer -->
+  <!-- Cursor hearts -->
   <div class="cursorHearts" id="cursorHearts" aria-hidden="true"></div>
 
-  <!-- Floating "Love note" button -->
+  <!-- Floating love button -->
   <button class="floatLove" id="floatLove" type="button" aria-label="Show a love note">💌</button>
 
-  <!-- Love note toast -->
+  <!-- Toast -->
   <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Top nav -->
@@ -106,7 +104,6 @@
           <div class="countBox"><div class="countNum" id="secs">0</div><div class="countLbl">Seconds</div></div>
         </div>
 
-        <!-- Love meter -->
         <div class="meterWrap">
           <div class="meterTitle">
             Love Level:
@@ -215,20 +212,15 @@
     </div>
   </section>
 
-  <!-- =========================
-      FEATURE #1: OPEN WHEN LETTERS
-  ========================== -->
+  <!-- Open When -->
   <section class="section" id="openwhen">
     <div class="container">
       <h2 class="sectionTitle">Open When…</h2>
       <p class="sectionSub">Little letters for the exact moment you need them.</p>
 
-      <div class="openWhenGrid" id="openWhenGrid">
-        <!-- cards injected by JS -->
-      </div>
+      <div class="openWhenGrid" id="openWhenGrid"></div>
     </div>
 
-    <!-- Open When Modal -->
     <div class="owModal" id="owModal" aria-hidden="true">
       <div class="owBackdrop" data-close="true"></div>
 
@@ -255,9 +247,7 @@
     </div>
   </section>
 
-  <!-- =========================
-      FEATURE #2: DISTANCE SECTION
-  ========================== -->
+  <!-- Distance -->
   <section class="section soft" id="distance">
     <div class="container">
       <h2 class="sectionTitle">Distance Between Us</h2>
@@ -299,20 +289,19 @@
             <p>Just a cute view. (Open full map if you want.)</p>
           </div>
           <iframe
-            id="osmMap"
+            id="googleMap"
             class="mapFrame"
             loading="lazy"
-            referrerpolicy="no-referrer"
-            title="OpenStreetMap embed"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+            title="Google Map"
           ></iframe>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- =========================
-      FEATURE #4: MOOD BUTTONS
-  ========================== -->
+  <!-- Mood -->
   <section class="section" id="mood">
     <div class="container">
       <h2 class="sectionTitle">How are you feeling today?</h2>
@@ -362,7 +351,7 @@
     </div>
   </section>
 
-  <!-- Gallery + Lightbox -->
+  <!-- Gallery -->
   <section class="section" id="gallery">
     <div class="container">
       <h2 class="sectionTitle">Our Moments</h2>
@@ -416,16 +405,13 @@
       </div>
     </div>
 
-    <!-- Lightbox -->
     <div class="lightbox" id="lightbox" aria-hidden="true">
       <div class="lightboxBackdrop" data-close="true"></div>
 
       <div class="lightboxPanel" role="dialog" aria-modal="true" aria-label="Image viewer">
         <button class="lbBtn lbClose" id="lbClose" type="button" aria-label="Close">✕</button>
         <button class="lbBtn lbPrev" id="lbPrev" type="button" aria-label="Previous">‹</button>
-
         <img class="lightboxImg" id="lightboxImg" alt="Full image" />
-
         <button class="lbBtn lbNext" id="lbNext" type="button" aria-label="Next">›</button>
       </div>
     </div>
@@ -589,30 +575,23 @@
     <p>Made with ❤️ just for you.</p>
   </footer>
 
-  <!-- Background music -->
+  <!-- Music -->
   <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg" />
   </audio>
 
   <script>
-    // =========================
-    // 0) SETTINGS
-    // =========================
     const SECRET_CODE = "1501";
 
-    // Diary + Calendar API URL
-    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbwgeYfhH2iMIaUTt0djwMihKtFIgEtC9z0IvLnGEGYZ0N8IFV9chzjiOURb0zope-dZjw/exec";
+    // Replace with your deployed Apps Script URL
+    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbyINuYpOpx-18VJ-1I4sVUDhL5ndAEURltv9kEW0YzV3YwAtZ6TIe_mS9l1UY9wEWleHw/exec";
 
-    // Love start
     const loveStart = new Date("2025-01-13T18:11:59Z");
 
-    // Distance settings
     const DIST_FROM = { name: "Banasree", lat: 23.754502, lon: 90.441620 };
     const DIST_TO   = { name: "Solmid", lat: 23.80129032537606, lon: 90.42948967046743 };
 
-    // =========================
-    // 1) PASSWORD LOCK
-    // =========================
+    // Password lock
     const lockOverlay = document.getElementById("lockOverlay");
     const lockForm = document.getElementById("lockForm");
     const lockInput = document.getElementById("lockInput");
@@ -630,10 +609,12 @@
     lockForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const v = (lockInput.value || "").trim();
+
       if (!v){
         lockHint.textContent = "Type something 🥺";
         return;
       }
+
       if (v.toLowerCase() === SECRET_CODE.toLowerCase()){
         lockHint.textContent = "Welcome, my love ❤️";
         setTimeout(unlock, 450);
@@ -644,9 +625,7 @@
       }
     });
 
-    // =========================
-    // 2) TOAST
-    // =========================
+    // Toast
     const toast = document.getElementById("toast");
     let toastTimer = null;
 
@@ -657,9 +636,7 @@
       toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
-    // =========================
-    // 3) LOVE TIMER
-    // =========================
+    // Love timer
     function updateCounter() {
       const now = new Date();
       let diff = Math.max(0, now - loveStart);
@@ -683,9 +660,7 @@
     updateCounter();
     setInterval(updateCounter, 1000);
 
-    // =========================
-    // 4) LOVE METER
-    // =========================
+    // Love meter
     const meterFill = document.getElementById("meterFill");
     const meterValue = document.getElementById("meterValue");
     const meterBar = document.querySelector(".meterBar");
@@ -715,9 +690,7 @@
       meterValue.textContent = meter.toLocaleString() + "%";
     }, 1000);
 
-    // =========================
-    // 5) SURPRISE + CONFETTI
-    // =========================
+    // Surprise
     const surpriseBtn = document.getElementById("surpriseBtn");
     const surpriseText = document.getElementById("surpriseText");
     const surprises = [
@@ -735,9 +708,7 @@
       fireConfetti();
     });
 
-    // =========================
-    // 6) MUSIC TOGGLE
-    // =========================
+    // Music
     const musicBtn = document.getElementById("musicBtn");
     const bgMusic = document.getElementById("bgMusic");
     let musicOn = false;
@@ -760,9 +731,7 @@
       }
     });
 
-    // =========================
-    // 7) THEME TOGGLE
-    // =========================
+    // Theme
     const themeBtn = document.getElementById("themeBtn");
     const root = document.documentElement;
 
@@ -780,9 +749,7 @@
       setTheme(current === "dark" ? "light" : "dark");
     });
 
-    // =========================
-    // 8) FLOATING LOVE NOTE
-    // =========================
+    // Floating love note
     const floatLove = document.getElementById("floatLove");
     const loveNotes = [
       "I miss you. Always. 🥺❤️",
@@ -796,9 +763,7 @@
       showToast(loveNotes[Math.floor(Math.random() * loveNotes.length)]);
     });
 
-    // =========================
-    // 9) CURSOR HEARTS
-    // =========================
+    // Cursor hearts
     const cursorHearts = document.getElementById("cursorHearts");
     let lastHeartTime = 0;
 
@@ -831,62 +796,43 @@
       spawnHeart(t.clientX, t.clientY);
     }, { passive: true });
 
-    // =========================
-    // 10) OPEN WHEN
-    // =========================
+    // Open When
     const owList = [
       {
         title: "Open when you feel sad",
         emoji: "🥺",
         sub: "I’m here. Always.",
-        text:
-          "Hey love… breathe. You don’t have to be strong all the time. " +
-          "I’m proud of you for surviving days nobody saw. " +
-          "Drink water, rest your head, and remember: you’re loved deeply."
+        text: "Hey love… breathe. You don’t have to be strong all the time. I’m proud of you for surviving days nobody saw. Drink water, rest your head, and remember: you’re loved deeply."
       },
       {
         title: "Open when you miss me",
         emoji: "🫶",
         sub: "Come closer (virtually).",
-        text:
-          "I miss you too. If I could, I’d pull you into the longest hug. " +
-          "Until then… read this and feel me near you. " +
-          "You’re my favorite thought."
+        text: "I miss you too. If I could, I’d pull you into the longest hug. Until then… read this and feel me near you. You’re my favorite thought."
       },
       {
         title: "Open when you doubt yourself",
         emoji: "✨",
         sub: "You’re more than enough.",
-        text:
-          "You are capable. You are smart. You are stronger than you think. " +
-          "Even if you don’t see it today, I see it clearly. " +
-          "Keep going. I’m cheering for you."
+        text: "You are capable. You are smart. You are stronger than you think. Even if you don’t see it today, I see it clearly. Keep going. I’m cheering for you."
       },
       {
         title: "Open when you’re happy",
         emoji: "😍",
         sub: "I want to celebrate you!",
-        text:
-          "I LOVE seeing you happy. Your smile is my favorite view. " +
-          "Keep that joy safe— and save some for me too 😌❤️"
+        text: "I LOVE seeing you happy. Your smile is my favorite view. Keep that joy safe— and save some for me too 😌❤️"
       },
       {
         title: "Open when you’re tired",
         emoji: "😴",
         sub: "Rest. I’ll hold the world for a bit.",
-        text:
-          "You did enough today. Even small progress is progress. " +
-          "Close your eyes, relax your shoulders, and let yourself rest. " +
-          "I’m proud of you."
+        text: "You did enough today. Even small progress is progress. Close your eyes, relax your shoulders, and let yourself rest. I’m proud of you."
       },
       {
         title: "Open when you need motivation",
         emoji: "🔥",
         sub: "One more step. That’s all.",
-        text:
-          "You don’t have to do everything at once. Just one step. " +
-          "Start small, keep moving, and watch yourself win. " +
-          "I believe in you."
+        text: "You don’t have to do everything at once. Just one step. Start small, keep moving, and watch yourself win. I believe in you."
       }
     ];
 
@@ -938,9 +884,9 @@
     owModal.addEventListener("click", (e) => {
       if (e.target.dataset.close === "true") closeOW();
     });
+
     document.addEventListener("keydown", (e) => {
-      if (!owModal.classList.contains("open")) return;
-      if (e.key === "Escape") closeOW();
+      if (owModal.classList.contains("open") && e.key === "Escape") closeOW();
     });
 
     owConfetti.addEventListener("click", () => {
@@ -953,18 +899,18 @@
       openOW(next);
     });
 
-    // =========================
-    // DISTANCE
-    // =========================
+    // Distance + Google Map
     const fromPlace = document.getElementById("fromPlace");
     const toPlace = document.getElementById("toPlace");
     const distanceKmEl = document.getElementById("distanceKm");
     const distanceHint = document.getElementById("distanceHint");
     const recalcBtn = document.getElementById("recalcDistance");
     const openMapLink = document.getElementById("openMapLink");
-    const osmMap = document.getElementById("osmMap");
+    const googleMap = document.getElementById("googleMap");
 
-    function toRad(deg){ return deg * Math.PI / 180; }
+    function toRad(deg){
+      return deg * Math.PI / 180;
+    }
 
     function haversineKm(a, b){
       const R = 6371;
@@ -979,25 +925,12 @@
       return R * c;
     }
 
-    function buildOsmEmbed(a, b){
-      const midLat = (a.lat + b.lat) / 2;
-      const midLon = (a.lon + b.lon) / 2;
-
-      const pad = 0.35;
-      const minLat = Math.min(a.lat, b.lat) - pad;
-      const maxLat = Math.max(a.lat, b.lat) + pad;
-      const minLon = Math.min(a.lon, b.lon) - pad;
-      const maxLon = Math.max(a.lon, b.lon) + pad;
-
-      return "https://www.openstreetmap.org/export/embed.html" +
-        `?bbox=${encodeURIComponent(minLon)},${encodeURIComponent(minLat)},${encodeURIComponent(maxLon)},${encodeURIComponent(maxLat)}` +
-        `&layer=mapnik&marker=${encodeURIComponent(midLat)},${encodeURIComponent(midLon)}`;
+    function buildGoogleMapEmbed(a, b){
+      return `https://www.google.com/maps?q=${a.lat},${a.lon}+to+${b.lat},${b.lon}&output=embed`;
     }
 
-    function buildOsmLink(a, b){
-      const midLat = (a.lat + b.lat) / 2;
-      const midLon = (a.lon + b.lon) / 2;
-      return `https://www.openstreetmap.org/?mlat=${midLat}&mlon=${midLon}#map=7/${midLat}/${midLon}`;
+    function buildGoogleMapLink(a, b){
+      return `https://www.google.com/maps/dir/${a.lat},${a.lon}/${b.lat},${b.lon}`;
     }
 
     function renderDistance(){
@@ -1012,20 +945,18 @@
       else if (km < 300) distanceHint.textContent = "Distance is real, but love is stronger 💗";
       else distanceHint.textContent = "Far… but you’re still my closest feeling ❤️";
 
-      openMapLink.href = buildOsmLink(DIST_FROM, DIST_TO);
-      osmMap.src = buildOsmEmbed(DIST_FROM, DIST_TO);
+      openMapLink.href = buildGoogleMapLink(DIST_FROM, DIST_TO);
+      googleMap.src = buildGoogleMapEmbed(DIST_FROM, DIST_TO);
     }
-    renderDistance();
 
+    renderDistance();
     recalcBtn.addEventListener("click", () => {
       renderDistance();
       showToast("Distance updated 📍");
       fireConfetti();
     });
 
-    // =========================
-    // MOOD SYSTEM
-    // =========================
+    // Mood
     const moodText = document.getElementById("moodText");
     const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
 
@@ -1052,9 +983,7 @@
 
     moodBtns.forEach(b => b.addEventListener("click", () => setMood(b.dataset.mood)));
 
-    // =========================
-    // SLIDESHOW
-    // =========================
+    // Slideshow
     const slides = [
       { src: "g1.JPG", cap: "My favorite smile" },
       { src: "g2.JPG", cap: "From this..." },
@@ -1128,9 +1057,7 @@
     renderSlide();
     restartSlideTimer();
 
-    // =========================
-    // LIGHTBOX
-    // =========================
+    // Lightbox
     const galleryImgs = Array.from(document.querySelectorAll(".gallery img"));
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
@@ -1186,29 +1113,22 @@
       if (e.key === "ArrowRight") showNext();
     });
 
-    // =========================
-    // MEMORY CALENDAR
-    // =========================
-    const calendarGrid = document.getElementById("calendarGrid");
-    const calendarMonth = document.getElementById("calendarMonth");
-    const calPrev = document.getElementById("calPrev");
-    const calNext = document.getElementById("calNext");
-    const selectedMemoryDateText = document.getElementById("selectedMemoryDateText");
-    const memoryText = document.getElementById("memoryText");
-    const saveMemoryBtn = document.getElementById("saveMemoryBtn");
-    const refreshMemoryBtn = document.getElementById("refreshMemoryBtn");
-    const memoryList = document.getElementById("memoryList");
-    const memoryHint = document.getElementById("memoryHint");
+    // Helpers
+    function escapeHtmlSafe(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
 
-    let calDate = new Date();
-    calDate.setDate(1);
-
-    let selectedMemoryDate = formatDateKey(new Date());
-    let memories = [];
-
-    function setMemoryHint(msg){
-      if (!memoryHint) return;
-      memoryHint.textContent = msg || "";
+    function formatDate(iso){
+      const d = new Date(iso);
+      return d.toLocaleString(undefined, {
+        year: "numeric", month: "short", day: "2-digit",
+        hour: "2-digit", minute: "2-digit"
+      });
     }
 
     function formatDateKey(dateObj){
@@ -1227,8 +1147,30 @@
       });
     }
 
+    // Memory Calendar
+    const calendarGrid = document.getElementById("calendarGrid");
+    const calendarMonth = document.getElementById("calendarMonth");
+    const calPrev = document.getElementById("calPrev");
+    const calNext = document.getElementById("calNext");
+    const selectedMemoryDateText = document.getElementById("selectedMemoryDateText");
+    const memoryText = document.getElementById("memoryText");
+    const saveMemoryBtn = document.getElementById("saveMemoryBtn");
+    const refreshMemoryBtn = document.getElementById("refreshMemoryBtn");
+    const memoryList = document.getElementById("memoryList");
+    const memoryHint = document.getElementById("memoryHint");
+
+    let calDate = new Date();
+    calDate.setDate(1);
+
+    let selectedMemoryDate = formatDateKey(new Date());
+    let memories = [];
+
+    function setMemoryHint(msg){
+      memoryHint.textContent = msg || "";
+    }
+
     async function apiListMemories(){
-      const res = await fetch(`${DIARY_API_URL}?action=listMemories`, { method: "GET" });
+      const res = await fetch(`${DIARY_API_URL}?action=listMemories`);
       return res.json();
     }
 
@@ -1266,8 +1208,6 @@
     }
 
     function renderCalendar(){
-      if (!calendarGrid) return;
-
       const year = calDate.getFullYear();
       const month = calDate.getMonth();
 
@@ -1318,8 +1258,6 @@
     }
 
     function renderMemoryList(){
-      if (!memoryList) return;
-
       const list = memories
         .filter(m => m.memoryDate === selectedMemoryDate)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -1357,7 +1295,7 @@
             if (!data.ok) throw new Error(data.error || "Delete failed");
             setMemoryHint("Memory deleted ✅");
             await loadMemories();
-          }catch(err){
+          }catch{
             setMemoryHint("Delete failed ❌");
           }
         });
@@ -1375,7 +1313,7 @@
         renderMemoryList();
         updateSelectedMemoryDateUI();
         setMemoryHint("");
-      }catch(err){
+      }catch{
         renderCalendar();
         memoryList.innerHTML = `
           <div class="noteItem">
@@ -1386,17 +1324,17 @@
       }
     }
 
-    calPrev?.addEventListener("click", () => {
+    calPrev.addEventListener("click", () => {
       calDate.setMonth(calDate.getMonth() - 1);
       renderCalendar();
     });
 
-    calNext?.addEventListener("click", () => {
+    calNext.addEventListener("click", () => {
       calDate.setMonth(calDate.getMonth() + 1);
       renderCalendar();
     });
 
-    saveMemoryBtn?.addEventListener("click", async () => {
+    saveMemoryBtn.addEventListener("click", async () => {
       const text = memoryText.value.trim();
 
       if (!selectedMemoryDate){
@@ -1418,16 +1356,14 @@
         setMemoryHint("Memory saved ❤️");
         await loadMemories();
         fireConfetti(true);
-      }catch(err){
+      }catch{
         setMemoryHint("Save failed ❌");
       }
     });
 
-    refreshMemoryBtn?.addEventListener("click", loadMemories);
+    refreshMemoryBtn.addEventListener("click", loadMemories);
 
-    // =========================
-    // DIARY API
-    // =========================
+    // Diary
     const diaryText = document.getElementById("diaryText");
     const saveDiaryBtn = document.getElementById("saveDiaryBtn");
     const refreshDiaryBtn = document.getElementById("refreshDiaryBtn");
@@ -1435,29 +1371,11 @@
     const diaryHint = document.getElementById("diaryHint");
 
     function setHint(msg){
-      if (!diaryHint) return;
       diaryHint.textContent = msg || "";
     }
 
-    function escapeHtmlSafe(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function formatDate(iso){
-      const d = new Date(iso);
-      return d.toLocaleString(undefined, {
-        year: "numeric", month: "short", day: "2-digit",
-        hour: "2-digit", minute: "2-digit"
-      });
-    }
-
     async function apiListNotes(){
-      const res = await fetch(`${DIARY_API_URL}?action=list`, { method: "GET" });
+      const res = await fetch(`${DIARY_API_URL}?action=list`);
       return res.json();
     }
 
@@ -1482,7 +1400,6 @@
     }
 
     async function renderDiary(){
-      if (!diaryList) return;
       diaryList.innerHTML = `<div class="noteItem"><p class="noteText">Loading…</p></div>`;
 
       try{
@@ -1515,19 +1432,19 @@
               if (!d.ok) throw new Error(d.error || "Delete failed");
               setHint("Deleted ✅");
               await renderDiary();
-            }catch(err){
+            }catch{
               setHint("Delete failed ❌");
             }
           });
         });
 
-      }catch(err){
+      }catch{
         diaryList.innerHTML = `<div class="noteItem"><p class="noteText">Failed to load notes. Check API URL / deployment access.</p></div>`;
         setHint("Could not load notes ❌");
       }
     }
 
-    saveDiaryBtn?.addEventListener("click", async () => {
+    saveDiaryBtn.addEventListener("click", async () => {
       const text = diaryText.value.trim();
       if (!text){
         setHint("Write something first 😊");
@@ -1540,19 +1457,14 @@
         diaryText.value = "";
         setHint("Saved ❤️");
         await renderDiary();
-      }catch(err){
+      }catch{
         setHint("Save failed ❌");
       }
     });
 
-    refreshDiaryBtn?.addEventListener("click", renderDiary);
+    refreshDiaryBtn.addEventListener("click", renderDiary);
 
-    renderDiary();
-    loadMemories();
-
-    // =========================
-    // EASTER EGG: type "i love you"
-    // =========================
+    // Easter egg
     let typed = "";
     const targetPhrase = "i love you";
     document.addEventListener("keydown", (e) => {
@@ -1571,9 +1483,7 @@
       }
     });
 
-    // =========================
-    // CONFETTI (canvas)
-    // =========================
+    // Confetti
     const canvas = document.getElementById("confettiCanvas");
     const ctx = canvas.getContext("2d");
     let confettiPieces = [];
@@ -1659,6 +1569,9 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
+
+    renderDiary();
+    loadMemories();
   </script>
 </body>
 </html>

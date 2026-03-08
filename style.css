@@ -1,22 +1,16 @@
 :root{
   --bg: #0b0a10;
   --bg2: #070611;
-
   --card: rgba(255,255,255,0.08);
   --card2: rgba(255,255,255,0.12);
-
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.72);
-
   --pink: #ff4d8d;
   --rose: #ff7aa6;
   --glow: rgba(255, 77, 141, 0.45);
-
   --line: rgba(255,255,255,0.14);
-
   --shadow: 0 18px 60px rgba(0,0,0,0.45);
   --shadow2: 0 26px 90px rgba(0,0,0,0.55);
-
   --mood1: rgba(255,77,141,0.16);
   --mood2: rgba(255,122,166,0.14);
 }
@@ -24,22 +18,15 @@
 html[data-theme="light"]{
   --bg: #fff3f7;
   --bg2: #ffe1ec;
-
   --card: rgba(255,255,255,0.72);
   --card2: rgba(255,255,255,0.84);
-
   --text: rgba(18,14,20,0.92);
   --muted: rgba(18,14,20,0.68);
-
   --line: rgba(18,14,20,0.12);
-
   --shadow: 0 18px 60px rgba(25,18,28,0.18);
   --shadow2: 0 26px 90px rgba(25,18,28,0.20);
 }
 
-/* =========================
-   Base
-========================= */
 *{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
 body{
@@ -59,9 +46,6 @@ a{ color: inherit; }
 section[id]{ scroll-margin-top: 130px; }
 body.locked{ overflow: hidden; }
 
-/* =========================
-   Mood System
-========================= */
 body[data-mood="happy"]{
   --mood1: rgba(255,196,77,0.25);
   --mood2: rgba(255,220,140,0.20);
@@ -92,9 +76,6 @@ body.pulseLove{
   100%{ filter: none; }
 }
 
-/* =========================
-   Confetti + Cursor hearts + Toast
-========================= */
 .confettiCanvas{
   position: fixed;
   inset: 0;
@@ -141,9 +122,6 @@ body.pulseLove{
   transform: translateX(-50%) translateY(0);
 }
 
-/* =========================
-   Floating hearts background
-========================= */
 .hearts{
   position: fixed;
   inset: 0;
@@ -184,9 +162,6 @@ body.pulseLove{
   100% { transform: translateY(-120vh) translateX(-60px) scale(1.35) rotate(-14deg); opacity: 0; }
 }
 
-/* =========================
-   Topbar
-========================= */
 .topbar{
   position: fixed;
   top: 0;
@@ -232,7 +207,7 @@ html[data-theme="light"] .topbar{ background: rgba(255,255,255,0.65); }
 }
 .topActions{ display:flex; gap: 10px; align-items:center; }
 
-.musicBtn, .toggleBtn{
+.musicBtn, .toggleBtn, .calNavBtn{
   width: 42px;
   height: 42px;
   border-radius: 999px;
@@ -243,7 +218,7 @@ html[data-theme="light"] .topbar{ background: rgba(255,255,255,0.65); }
   cursor: pointer;
   transition: 0.2s ease;
 }
-.musicBtn:hover, .toggleBtn:hover{
+.musicBtn:hover, .toggleBtn:hover, .calNavBtn:hover{
   transform: translateY(-1px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.20);
 }
@@ -252,9 +227,6 @@ html[data-theme="light"] .topbar{ background: rgba(255,255,255,0.65); }
   box-shadow: 0 0 0 6px rgba(255,77,141,0.12);
 }
 
-/* =========================
-   Hero
-========================= */
 .hero{
   position: relative;
   min-height: 100vh;
@@ -337,9 +309,6 @@ html[data-theme="light"] .heroText{ color: rgba(25,18,28,0.72); }
   margin: 16px 0 18px;
 }
 
-/* =========================
-   Buttons
-========================= */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -366,9 +335,6 @@ html[data-theme="light"] .heroText{ color: rgba(25,18,28,0.72); }
 }
 .btn.ghost{ background: rgba(255,255,255,0.06); }
 
-/* =========================
-   Countdown + Love meter
-========================= */
 .countdownCard{
   margin: 18px auto 0;
   width: min(760px, 92vw);
@@ -415,9 +381,6 @@ html[data-theme="light"] .heroText{ color: rgba(25,18,28,0.72); }
 }
 .meterHint{ margin: 10px 0 0; color: rgba(255,255,255,0.68); font-size: 12px; }
 
-/* =========================
-   Sections
-========================= */
 .section{ position: relative; z-index: 1; padding: 86px 0; }
 .section.soft{
   background: rgba(255,255,255,0.03);
@@ -455,9 +418,6 @@ html[data-theme="light"] .section.soft{ background: rgba(255,255,255,0.55); }
 }
 html[data-theme="light"] .sectionSub{ color: rgba(18,14,20,0.70); }
 
-/* =========================
-   Timeline
-========================= */
 .timeline{ display: grid; gap: 16px; max-width: 900px; }
 .tItem{ display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; }
 .tDot{
@@ -477,9 +437,6 @@ html[data-theme="light"] .tCard p{ color: rgba(18,14,20,0.74); }
 .tNote{ font-size: 12px; color: rgba(255,255,255,0.65); }
 html[data-theme="light"] .tNote{ color: rgba(18,14,20,0.62); }
 
-/* =========================
-   Cards grid
-========================= */
 .grid3{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .card{
   background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
@@ -494,9 +451,6 @@ html[data-theme="light"] .tNote{ color: rgba(18,14,20,0.62); }
 .card p{ margin: 0; color: rgba(255,255,255,0.75); line-height: 1.7; }
 html[data-theme="light"] .card p{ color: rgba(18,14,20,0.74); }
 
-/* =========================
-   Open When
-========================= */
 .openWhenGrid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
@@ -522,7 +476,6 @@ html[data-theme="light"] .owCardSub{ color: rgba(18,14,20,0.70); }
 .owCardHint{ font-size: 12px; color: rgba(255,255,255,0.65); }
 html[data-theme="light"] .owCardHint{ color: rgba(18,14,20,0.60); }
 
-/* Open When Modal */
 .owModal{ position: fixed; inset:0; display:none; z-index: 1001; }
 .owModal.open{ display:block; }
 .owBackdrop{ position:absolute; inset:0; background: rgba(0,0,0,0.70); backdrop-filter: blur(10px); }
@@ -563,22 +516,23 @@ html[data-theme="light"] .owBody{
 html[data-theme="light"] .owBody p{ color: rgba(18,14,20,0.88); }
 .owActions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
 
-/* =========================
-   Distance
-========================= */
 .distanceWrap{
   display:grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 14px;
   align-items: start;
 }
-.distanceCard, .mapCard{
+.distanceCard, .mapCard,
+.calendarCard, .memoryCard,
+.diaryCard, .diaryListCard,
+.moodCard, .miniCard, .letterCard, .polaroidNote{
   background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 26px;
   padding: 18px;
   box-shadow: var(--shadow2);
 }
+
 .distanceRow{
   display:flex;
   justify-content: space-between;
@@ -609,9 +563,6 @@ html[data-theme="light"] .mapHead p{ color: rgba(18,14,20,0.68); }
   background: rgba(0,0,0,0.15);
 }
 
-/* =========================
-   Mood section UI
-========================= */
 .moodWrap{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -639,22 +590,12 @@ html[data-theme="light"] .mapHead p{ color: rgba(18,14,20,0.68); }
   grid-column: span 2;
   background: linear-gradient(135deg, rgba(255,77,141,0.22), rgba(255,255,255,0.06));
 }
-.moodCard{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: var(--shadow2);
-}
 .moodTitle{ font-weight: 900; margin-bottom: 8px; }
 .moodText{ margin: 0; color: rgba(255,255,255,0.80); line-height: 1.8; }
 html[data-theme="light"] .moodText{ color: rgba(18,14,20,0.78); }
 .moodTip{ margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.62); }
 html[data-theme="light"] .moodTip{ color: rgba(18,14,20,0.60); }
 
-/* =========================
-   Slideshow
-========================= */
 .slider{ max-width: 980px; }
 .sliderFrame{
   position: relative;
@@ -702,9 +643,6 @@ html[data-theme="light"] .slideCap{
   border-color: rgba(255,255,255,0.22);
 }
 
-/* =========================
-   Gallery
-========================= */
 .gallery{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .gItem{
   margin: 0;
@@ -730,9 +668,6 @@ html[data-theme="light"] .slideCap{
   color: rgba(255,255,255,0.85);
 }
 
-/* =========================
-   Polaroid
-========================= */
 .polaroidWrap{
   margin-top: 26px;
   display: grid;
@@ -755,28 +690,10 @@ html[data-theme="light"] .slideCap{
   color: #1d1020;
   text-align: center;
 }
-.polaroidNote{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 22px;
-  padding: 20px;
-  box-shadow: var(--shadow2);
-}
 .polaroidNote p{ color: rgba(255,255,255,0.75); line-height: 1.8; }
 html[data-theme="light"] .polaroidNote p{ color: rgba(18,14,20,0.75); }
 .signature{ margin-top: 10px; color: rgba(255,255,255,0.85); font-weight: 800; }
 
-/* =========================
-   Letter
-========================= */
-.letterCard{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 26px;
-  padding: 22px;
-  max-width: 950px;
-  box-shadow: var(--shadow2);
-}
 .letterCard p{ color: rgba(255,255,255,0.78); line-height: 1.85; margin-top: 0; }
 html[data-theme="light"] .letterCard p{ color: rgba(18,14,20,0.78); }
 .letterEnd{ margin-top: 18px; color: rgba(255,255,255,0.9); font-weight: 800; }
@@ -799,20 +716,12 @@ html[data-theme="light"] .letterCard p{ color: rgba(18,14,20,0.78); }
 }
 .surprise.show{ opacity: 1; transform: translateY(0); }
 
-/* Mini cards row */
 .miniRow{
   margin-top: 18px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
   max-width: 950px;
-}
-.miniCard{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: var(--shadow2);
 }
 .miniCard p, .miniCard li{ color: rgba(255,255,255,0.75); line-height: 1.8; }
 html[data-theme="light"] .miniCard p,
@@ -831,9 +740,6 @@ html[data-theme="light"] .miniCard li{ color: rgba(18,14,20,0.74); }
 .checkList li{ margin: 8px 0; padding-left: 26px; position: relative; }
 .checkList li::before{ content: "✓"; position: absolute; left: 0; top: 0; color: var(--rose); font-weight: 900; }
 
-/* =========================
-   Footer
-========================= */
 .footer{
   padding: 40px 0 54px;
   text-align: center;
@@ -842,9 +748,6 @@ html[data-theme="light"] .miniCard li{ color: rgba(18,14,20,0.74); }
 }
 html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
 
-/* =========================
-   Lightbox
-========================= */
 .lightbox{
   position: fixed;
   inset: 0;
@@ -894,55 +797,24 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
 .lbNext:hover{ transform: translateY(-50%) translateY(-2px); }
 .lbClose:hover{ transform: translateY(-2px); }
 
-/* =========================
-   Memory Calendar
-========================= */
 .calendarWrap{
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 14px;
   align-items: start;
 }
-
-.calendarCard,
-.memoryCard{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 26px;
-  padding: 18px;
-  box-shadow: var(--shadow2);
-}
-
 .calendarHead{
-  display: flex;
-  align-items: center;
+  display:flex;
+  align-items:center;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 14px;
 }
-
 .calendarMonth{
   font-weight: 900;
   font-size: 20px;
   text-align: center;
 }
-
-.calNavBtn{
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.06);
-  color: var(--text);
-  cursor: pointer;
-  font-size: 20px;
-  transition: 0.2s ease;
-}
-.calNavBtn:hover{
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
 .calendarWeekdays{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -955,13 +827,11 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   font-weight: 800;
   color: var(--muted);
 }
-
 .calendarGrid{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
 }
-
 .calCell{
   min-height: 72px;
   border-radius: 18px;
@@ -969,12 +839,10 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   background: rgba(255,255,255,0.05);
   position: relative;
 }
-
 .calCell.empty{
   background: transparent;
   border: 1px dashed rgba(255,255,255,0.05);
 }
-
 .calDay{
   color: var(--text);
   cursor: pointer;
@@ -985,7 +853,6 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   border-color: rgba(255,77,141,0.35);
   box-shadow: var(--shadow);
 }
-
 .calNum{
   position: absolute;
   top: 10px;
@@ -993,7 +860,6 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   font-weight: 800;
   font-size: 14px;
 }
-
 .calMark{
   position: absolute;
   right: 10px;
@@ -1004,20 +870,16 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   background: linear-gradient(135deg, var(--pink), var(--rose));
   box-shadow: 0 0 0 6px rgba(255,77,141,0.12);
 }
-
 .calDay.today{
   border-color: rgba(255,255,255,0.30);
 }
-
 .calDay.selected{
   background: linear-gradient(135deg, rgba(255,77,141,0.18), rgba(255,122,166,0.12));
   border-color: rgba(255,77,141,0.45);
 }
-
 .calDay.hasMemory{
   border-color: rgba(255,77,141,0.30);
 }
-
 .calendarLegend{
   margin: 14px 0 0;
   font-size: 13px;
@@ -1033,66 +895,28 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   background: linear-gradient(135deg, var(--pink), var(--rose));
   display: inline-block;
 }
-
 .memoryTop{
-  display: flex;
+  display:flex;
   justify-content: space-between;
-  align-items: center;
+  align-items:center;
   gap: 12px;
   margin-bottom: 12px;
   flex-wrap: wrap;
 }
-.memoryTitle{
-  margin: 0;
-}
+.memoryTitle{ margin: 0; }
 .memorySelectedDate{
   font-size: 13px;
   font-weight: 800;
   color: var(--rose);
 }
+.memoryListWrap{ margin-top: 18px; }
+.memoryList{ display: grid; gap: 12px; }
 
-.memoryListWrap{
-  margin-top: 18px;
-}
-.memoryList{
-  display: grid;
-  gap: 12px;
-}
-
-html[data-theme="light"] .calendarWeekdays div{
-  color: rgba(18,14,20,0.72);
-}
-html[data-theme="light"] .calCell{
-  background: rgba(255,255,255,0.82);
-  border-color: rgba(0,0,0,0.10);
-}
-html[data-theme="light"] .calCell.empty{
-  background: transparent;
-  border-color: rgba(0,0,0,0.06);
-}
-html[data-theme="light"] .calDay.today{
-  border-color: rgba(0,0,0,0.22);
-}
-html[data-theme="light"] .calDay.selected{
-  background: linear-gradient(135deg, rgba(255,77,141,0.14), rgba(255,122,166,0.10));
-  border-color: rgba(255,77,141,0.45);
-}
-
-/* =========================
-   Diary
-========================= */
 .diaryWrap{
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 14px;
   align-items: start;
-}
-.diaryCard, .diaryListCard{
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 26px;
-  padding: 18px;
-  box-shadow: var(--shadow2);
 }
 .diaryLabel{ display:block; font-weight: 900; margin-bottom: 10px; }
 .diaryText{
@@ -1120,7 +944,7 @@ html[data-theme="light"] .diaryText{
 .diaryHint{ margin: 12px 0 0; color: rgba(255,255,255,0.7); font-size: 13px; }
 html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
 
-.diaryList{ display: grid; gap: 12px; }
+.diaryList, .memoryList{ display: grid; gap: 12px; }
 .noteItem{
   border-radius: 20px;
   padding: 14px;
@@ -1142,6 +966,25 @@ html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
 }
 .noteDel:hover{ transform: translateY(-2px); border-color: rgba(255,77,141,0.35); }
 
+html[data-theme="light"] .calendarWeekdays div{
+  color: rgba(18,14,20,0.72);
+}
+html[data-theme="light"] .calCell{
+  background: rgba(255,255,255,0.82);
+  border-color: rgba(0,0,0,0.10);
+}
+html[data-theme="light"] .calCell.empty{
+  background: transparent;
+  border-color: rgba(0,0,0,0.06);
+}
+html[data-theme="light"] .calDay.today{
+  border-color: rgba(0,0,0,0.22);
+}
+html[data-theme="light"] .calDay.selected{
+  background: linear-gradient(135deg, rgba(255,77,141,0.14), rgba(255,122,166,0.10));
+  border-color: rgba(255,77,141,0.45);
+}
+
 html[data-theme="light"] .noteItem{
   background: rgba(255,255,255,0.88);
   border: 1px solid rgba(0,0,0,0.18);
@@ -1162,9 +1005,6 @@ html[data-theme="light"] .noteDel:hover{
   background: rgba(255,77,141,0.12);
 }
 
-/* =========================
-   Floating love button
-========================= */
 .floatLove{
   position: fixed;
   right: 18px;
@@ -1183,9 +1023,6 @@ html[data-theme="light"] .noteDel:hover{
 }
 .floatLove:hover{ transform: translateY(-2px); box-shadow: var(--shadow2); }
 
-/* =========================
-   Password Overlay
-========================= */
 .lockOverlay{
   position: fixed;
   inset: 0;
@@ -1236,9 +1073,6 @@ html[data-theme="light"] .noteDel:hover{
 .lockHint{ margin: 12px 0 0; min-height: 18px; color: rgba(255,255,255,0.78); }
 .lockSmall{ margin: 10px 0 0; font-size: 12px; color: rgba(255,255,255,0.62); }
 
-/* =========================
-   Responsive
-========================= */
 @media (max-width: 980px){
   .grid3{ grid-template-columns: repeat(2, 1fr); }
   .gallery{ grid-template-columns: repeat(2, 1fr); }
@@ -1257,13 +1091,12 @@ html[data-theme="light"] .noteDel:hover{
   .gallery{ grid-template-columns: 1fr; }
   .gItem img{ height: 240px; }
   .openWhenGrid{ grid-template-columns: 1fr; }
+  .calendarGrid{ gap: 6px; }
+  .calendarWeekdays{ gap: 6px; }
   .calCell{ min-height: 58px; }
   .calendarMonth{ font-size: 17px; }
 }
 
-/* =========================
-   Accessibility
-========================= */
 @media (prefers-reduced-motion: reduce){
   *{ animation: none !important; transition: none !important; }
   html{ scroll-behavior: auto; }
