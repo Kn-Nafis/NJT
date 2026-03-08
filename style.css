@@ -139,7 +139,6 @@ body.pulseLove{
   user-select: none;
 }
 .hearts span:nth-child(even){ animation-name: floatUpAlt; }
-
 .hearts span:nth-child(1){ left: 8%;  animation-duration: 10s; animation-delay: 0s;  opacity: .7; }
 .hearts span:nth-child(2){ left: 18%; animation-duration: 12s; animation-delay: 2s;  opacity: .4; }
 .hearts span:nth-child(3){ left: 28%; animation-duration: 9s;  animation-delay: 1s;  opacity: .6; }
@@ -918,7 +917,11 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   gap: 14px;
   align-items: start;
 }
-.diaryLabel{ display:block; font-weight: 900; margin-bottom: 10px; }
+.diaryLabel{
+  display:block;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
 .diaryText{
   width: 100%;
   resize: vertical;
@@ -940,20 +943,113 @@ html[data-theme="light"] .diaryText{
   border-color: rgba(255,77,141,0.45);
   box-shadow: 0 0 0 6px rgba(255,77,141,0.10);
 }
-.diaryActions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.diaryHint{ margin: 12px 0 0; color: rgba(255,255,255,0.7); font-size: 13px; }
+.diaryActions{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.diaryHint{
+  margin: 12px 0 0;
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
 html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
 
-.diaryList, .memoryList{ display: grid; gap: 12px; }
-.noteItem{
-  border-radius: 20px;
-  padding: 14px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+.diaryListCard{
+  height: 560px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-.noteTop{ display:flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
-.noteDate{ font-size: 12px; color: rgba(255,255,255,0.72); }
-.noteText{ margin: 0; color: rgba(255,255,255,0.85); line-height: 1.8; white-space: pre-wrap; }
+.diaryListHeader{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  flex-shrink: 0;
+}
+.diaryListTitle{
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.2px;
+}
+.diaryList{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+.memoryList{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diaryList::-webkit-scrollbar,
+.memoryList::-webkit-scrollbar{
+  width: 8px;
+}
+.diaryList::-webkit-scrollbar-track,
+.memoryList::-webkit-scrollbar-track{
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+}
+.diaryList::-webkit-scrollbar-thumb,
+.memoryList::-webkit-scrollbar-thumb{
+  background: rgba(255,77,141,0.45);
+  border-radius: 999px;
+}
+.diaryList::-webkit-scrollbar-thumb:hover,
+.memoryList::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,77,141,0.65);
+}
+
+.noteItem{
+  position: relative;
+  border-radius: 20px;
+  padding: 14px 14px 14px 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+}
+.noteItem::before{
+  content:"";
+  position:absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--pink), var(--rose));
+}
+.noteTop{
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.noteDate{
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  font-weight: 700;
+}
+.noteText{
+  margin: 0;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 .noteDel{
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(0,0,0,0.25);
@@ -963,8 +1059,13 @@ html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
   height: 36px;
   cursor: pointer;
   transition: 0.2s ease;
+  flex-shrink: 0;
 }
-.noteDel:hover{ transform: translateY(-2px); border-color: rgba(255,77,141,0.35); }
+.noteDel:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,77,141,0.35);
+  background: rgba(255,77,141,0.12);
+}
 
 html[data-theme="light"] .calendarWeekdays div{
   color: rgba(18,14,20,0.72);
@@ -985,16 +1086,22 @@ html[data-theme="light"] .calDay.selected{
   border-color: rgba(255,77,141,0.45);
 }
 
+html[data-theme="light"] .diaryList::-webkit-scrollbar-track,
+html[data-theme="light"] .memoryList::-webkit-scrollbar-track{
+  background: rgba(0,0,0,0.06);
+}
+
 html[data-theme="light"] .noteItem{
-  background: rgba(255,255,255,0.88);
-  border: 1px solid rgba(0,0,0,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.86));
+  border: 1px solid rgba(0,0,0,0.14);
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 html[data-theme="light"] .noteDate{
   color: rgba(0,0,0,0.70);
-  font-weight: 800;
 }
-html[data-theme="light"] .noteText{ color: rgba(0,0,0,0.88); }
+html[data-theme="light"] .noteText{
+  color: rgba(0,0,0,0.88);
+}
 html[data-theme="light"] .noteDel{
   border-color: rgba(0,0,0,0.18);
   background: rgba(0,0,0,0.05);
@@ -1084,6 +1191,7 @@ html[data-theme="light"] .noteDel:hover{
   .distanceWrap{ grid-template-columns: 1fr; }
   .moodWrap{ grid-template-columns: 1fr; }
   .calendarWrap{ grid-template-columns: 1fr; }
+  .diaryListCard{ height: 460px; }
 }
 
 @media (max-width: 560px){
@@ -1095,6 +1203,8 @@ html[data-theme="light"] .noteDel:hover{
   .calendarWeekdays{ gap: 6px; }
   .calCell{ min-height: 58px; }
   .calendarMonth{ font-size: 17px; }
+  .diaryListCard{ height: 400px; }
+  .noteItem{ padding: 12px 12px 12px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce){
