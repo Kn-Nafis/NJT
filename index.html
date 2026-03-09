@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For My Valentine ❤️</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="style.css?v=2" />
+
+  <link rel="stylesheet" href="style.css?v=3" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
@@ -24,7 +25,7 @@
       </form>
 
       <p class="lockHint" id="lockHint" aria-live="polite"></p>
-      <p class="lockSmall">Waite a minute ... Who are you?</p>
+      <p class="lockSmall">Wait a minute ... Who are you?</p>
     </div>
   </div>
 
@@ -550,6 +551,24 @@
       </div>
     </div>
   </section>
+  <section class="section soft" id="scratch">
+  <div class="container">
+    <h2 class="sectionTitle">Scratch to Reveal 💌</h2>
+    <p class="sectionSub">Scratch the card and read my hidden message.</p>
+
+    <div class="scratchWrap">
+      <div class="scratchCard">
+        <div class="scratchMessage" id="scratchMessage">
+          No thing is more important to me than you, Amr bhul silo tmr sathe ami emn korci , Sorry , You are always my first and only . ❤️
+        </div>
+
+        <canvas id="scratchCanvas" class="scratchCanvas" width="700" height="260" aria-label="Scratch card"></canvas>
+
+        <!-- <div class="scratchHint" id="scratchHint">Scratch here to reveal the message ✨</div> -->
+      </div>
+    </div>
+  </div>
+</section>
 
   <footer class="footer">
     <p>Made with ❤️ just for you.</p>
@@ -695,7 +714,7 @@
           musicBtn.classList.remove("on");
         }
       } catch (e) {
-        alert("To enable music, add music.mp3 in the same folder as index.html");
+        alert("To enable music, keep music.mp3 in the same folder as index.html");
       }
     });
 
@@ -708,12 +727,58 @@
       localStorage.setItem("theme", t);
     }
 
+    const moodText = document.getElementById("moodText");
+    const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
+
+    const moodMessages = {
+      happy: "Your happiness is my favorite sound. Keep smiling… I’m smiling too 😊❤️",
+      sad: "Come here… breathe. You’re not alone, not even for a second 🥺🫶",
+      angry: "It’s okay to feel it. I’m on your side. Let’s calm down together 😤➡️😌",
+      tired: "Rest, love. You did enough today. I’m proud of you 😴❤️",
+      love: "You’re in love? Same. Always. Forever. 🥰💍",
+      reset: "Choose a mood and I’ll match the vibe for you 💗"
+    };
+
+    function setMood(mood, save = true){
+      if (mood === "reset"){
+        document.body.removeAttribute("data-mood");
+        moodText.textContent = moodMessages.reset;
+        if (save) localStorage.removeItem("selectedMood");
+        showToast("Mood reset ✨");
+        return;
+      }
+
+      document.body.setAttribute("data-mood", mood);
+      moodText.textContent = moodMessages[mood] || moodMessages.reset;
+
+      if (save){
+        localStorage.setItem("selectedMood", mood);
+      }
+
+      showToast("Mood set: " + mood + " 💞");
+    }
+
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light" || savedTheme === "dark") setTheme(savedTheme);
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    } else {
+      setTheme("dark");
+    }
+
+    const savedMood = localStorage.getItem("selectedMood");
+    if (savedMood && moodMessages[savedMood]) {
+      setMood(savedMood, false);
+    }
 
     themeBtn.addEventListener("click", () => {
       const current = root.getAttribute("data-theme") || "dark";
       setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    moodBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        setMood(btn.dataset.mood, true);
+      });
     });
 
     const floatLove = document.getElementById("floatLove");
@@ -919,32 +984,6 @@
       fireConfetti();
     });
 
-    const moodText = document.getElementById("moodText");
-    const moodBtns = Array.from(document.querySelectorAll(".moodBtn"));
-
-    const moodMessages = {
-      happy: "Your happiness is my favorite sound. Keep smiling… I’m smiling too 😊❤️",
-      sad: "Come here… breathe. You’re not alone, not even for a second 🥺🫶",
-      angry: "It’s okay to feel it. I’m on your side. Let’s calm down together 😤➡️😌",
-      tired: "Rest, love. You did enough today. I’m proud of you 😴❤️",
-      love: "You’re in love? Same. Always. Forever. 🥰💍",
-      reset: "Choose a mood and I’ll match the vibe for you 💗"
-    };
-
-    function setMood(mood){
-      if (mood === "reset"){
-        document.body.removeAttribute("data-mood");
-        moodText.textContent = moodMessages.reset;
-        showToast("Mood reset ✨");
-        return;
-      }
-      document.body.setAttribute("data-mood", mood);
-      moodText.textContent = moodMessages[mood] || moodMessages.reset;
-      showToast("Mood set: " + mood + " 💞");
-    }
-
-    moodBtns.forEach(b => b.addEventListener("click", () => setMood(b.dataset.mood)));
-
     const slides = [
       { src: "g1.JPG", cap: "My favorite smile" },
       { src: "g2.JPG", cap: "From this..." },
@@ -1106,6 +1145,15 @@
       });
     }
 
+    function formatPrettyMonthDay(monthDay){
+      const [m, d] = monthDay.split("-");
+      const fakeDate = new Date(`2000-${m}-${d}T00:00:00`);
+      return fakeDate.toLocaleDateString(undefined, {
+        month: "long",
+        day: "numeric"
+      });
+    }
+
     function normalizeMemoryDate(value){
       if (!value) return "";
       const raw = String(value);
@@ -1113,6 +1161,18 @@
       const d = new Date(raw);
       if (isNaN(d.getTime())) return raw.slice(0, 10);
       return formatDateKey(d);
+    }
+
+    function formatMonthDayKeyFromDate(dateObj){
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${m}-${d}`;
+    }
+
+    function formatMonthDayKeyFromString(dateStr){
+      const d = new Date(dateStr + "T00:00:00");
+      if (isNaN(d.getTime())) return "";
+      return formatMonthDayKeyFromDate(d);
     }
 
     const calendarGrid = document.getElementById("calendarGrid");
@@ -1169,8 +1229,11 @@
       const map = {};
       memories.forEach(m => {
         const normalized = normalizeMemoryDate(m.memoryDate);
-        if (!map[normalized]) map[normalized] = [];
-        map[normalized].push({ ...m, memoryDate: normalized });
+        const monthDay = formatMonthDayKeyFromString(normalized);
+        if (!monthDay) return;
+
+        if (!map[monthDay]) map[monthDay] = [];
+        map[monthDay].push({ ...m, memoryDate: normalized });
       });
       return map;
     }
@@ -1197,7 +1260,8 @@
 
       for (let day = 1; day <= totalDays; day++) {
         const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const hasMemory = !!memoryMap[dateKey];
+        const monthDayKey = `${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const hasMemory = !!memoryMap[monthDayKey];
         const isToday = dateKey === todayKey;
         const isSelected = dateKey === selectedMemoryDate;
 
@@ -1226,18 +1290,20 @@
     }
 
     function renderMemoryList(){
+      const selectedMonthDay = formatMonthDayKeyFromString(selectedMemoryDate);
+
       const list = memories
         .map(m => ({
           ...m,
           memoryDate: normalizeMemoryDate(m.memoryDate)
         }))
-        .filter(m => m.memoryDate === selectedMemoryDate)
+        .filter(m => formatMonthDayKeyFromString(m.memoryDate) === selectedMonthDay)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
       if (list.length === 0){
         memoryList.innerHTML = `
           <div class="noteItem">
-            <p class="noteText">No memory saved for ${escapeHtmlSafe(formatPrettyDate(selectedMemoryDate))} yet. ❤️</p>
+            <p class="noteText">No memory saved for ${escapeHtmlSafe(formatPrettyMonthDay(selectedMonthDay))} yet. ❤️</p>
           </div>
         `;
         return;
@@ -1247,8 +1313,8 @@
         <div class="noteItem" data-id="${escapeHtmlSafe(m.id)}">
           <div class="noteTop">
             <div>
-              <div class="noteDate">${escapeHtmlSafe(formatPrettyDate(m.memoryDate))}</div>
-              <div class="noteDate">${escapeHtmlSafe(formatDate(m.createdAt))}</div>
+              <div class="noteDate">Repeats every year on ${escapeHtmlSafe(formatPrettyMonthDay(selectedMonthDay))}</div>
+              <div class="noteDate">Originally saved: ${escapeHtmlSafe(formatDate(m.createdAt))}</div>
             </div>
             <button class="noteDel memoryDel" type="button" aria-label="Delete memory">🗑</button>
           </div>
@@ -1539,6 +1605,126 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
+    const scratchCanvas = document.getElementById("scratchCanvas");
+const scratchHint = document.getElementById("scratchHint");
+
+if (scratchCanvas) {
+  const sctx = scratchCanvas.getContext("2d");
+  let scratching = false;
+  let scratchDone = false;
+
+  function resizeScratchCanvas() {
+    const rect = scratchCanvas.getBoundingClientRect();
+    const ratio = window.devicePixelRatio || 1;
+
+    scratchCanvas.width = Math.floor(rect.width * ratio);
+    scratchCanvas.height = Math.floor(rect.height * ratio);
+
+    sctx.setTransform(1, 0, 0, 1, 0, 0);
+    sctx.scale(ratio, ratio);
+
+    drawScratchCover();
+  }
+
+  function drawScratchCover() {
+    const w = scratchCanvas.getBoundingClientRect().width;
+    const h = scratchCanvas.getBoundingClientRect().height;
+
+    sctx.globalCompositeOperation = "source-over";
+
+    const grad = sctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, "#cfcfd6");
+    grad.addColorStop(0.5, "#b8b8c2");
+    grad.addColorStop(1, "#e5e5ec");
+
+    sctx.clearRect(0, 0, w, h);
+    sctx.fillStyle = grad;
+    sctx.fillRect(0, 0, w, h);
+
+    for (let i = 0; i < 900; i++) {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      const a = Math.random() * 0.18;
+      sctx.fillStyle = `rgba(255,255,255,${a})`;
+      sctx.fillRect(x, y, 2, 2);
+    }
+
+    sctx.fillStyle = "rgba(255,255,255,0.22)";
+    sctx.font = "700 28px Poppins, sans-serif";
+    sctx.textAlign = "center";
+    sctx.fillText("Scratch Me", w / 2, h / 2);
+  }
+
+  function getScratchPos(e) {
+    const rect = scratchCanvas.getBoundingClientRect();
+    const point = e.touches ? e.touches[0] : e;
+    return {
+      x: point.clientX - rect.left,
+      y: point.clientY - rect.top
+    };
+  }
+
+  function scratchAt(x, y) {
+    sctx.globalCompositeOperation = "destination-out";
+    sctx.beginPath();
+    sctx.arc(x, y, 22, 0, Math.PI * 2);
+    sctx.fill();
+  }
+
+  function checkScratchPercent() {
+    const w = scratchCanvas.width;
+    const h = scratchCanvas.height;
+    const data = sctx.getImageData(0, 0, w, h).data;
+
+    let transparent = 0;
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i] === 0) transparent++;
+    }
+
+    const percent = transparent / (data.length / 4);
+
+    if (percent > 0.45 && !scratchDone) {
+      scratchDone = true;
+      scratchHint.textContent = "Message revealed ❤️";
+      scratchCanvas.style.transition = "opacity 0.6s ease";
+      scratchCanvas.style.opacity = "0";
+      fireConfetti(true);
+      showToast("Hidden message revealed 💌");
+    }
+  }
+
+  function startScratch(e) {
+    if (scratchDone) return;
+    scratching = true;
+    const pos = getScratchPos(e);
+    scratchAt(pos.x, pos.y);
+    e.preventDefault();
+  }
+
+  function moveScratch(e) {
+    if (!scratching || scratchDone) return;
+    const pos = getScratchPos(e);
+    scratchAt(pos.x, pos.y);
+    e.preventDefault();
+  }
+
+  function endScratch() {
+    if (!scratching) return;
+    scratching = false;
+    checkScratchPercent();
+  }
+
+  scratchCanvas.addEventListener("mousedown", startScratch);
+  scratchCanvas.addEventListener("mousemove", moveScratch);
+  window.addEventListener("mouseup", endScratch);
+
+  scratchCanvas.addEventListener("touchstart", startScratch, { passive: false });
+  scratchCanvas.addEventListener("touchmove", moveScratch, { passive: false });
+  window.addEventListener("touchend", endScratch);
+
+  window.addEventListener("resize", resizeScratchCanvas);
+  resizeScratchCanvas();
+}
 
     renderDiary();
     loadMemories();
