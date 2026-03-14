@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For My Valentine ❤️</title>
 
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,6 +53,8 @@
       <a href="#letter">Letter</a>
       <a href="#calendar">Calendar</a>
       <a href="#diary">Diary</a>
+      <a href="#questions">Questions</a>
+      <a href="#afterfight">After Fight</a>
     </nav>
 
     <div class="topActions">
@@ -205,7 +207,6 @@
     <div class="container">
       <h2 class="sectionTitle">Open When…</h2>
       <p class="sectionSub">Little letters for the exact moment you need them.</p>
-
       <div class="openWhenGrid" id="openWhenGrid"></div>
     </div>
 
@@ -551,24 +552,161 @@
       </div>
     </div>
   </section>
+
   <section class="section soft" id="scratch">
-  <div class="container">
-    <h2 class="sectionTitle">Scratch to Reveal 💌</h2>
-    <p class="sectionSub">Scratch the card and read my hidden message.</p>
+    <div class="container">
+      <h2 class="sectionTitle">Scratch to Reveal 💌</h2>
+      <p class="sectionSub">Scratch the card and read my hidden message.</p>
 
-    <div class="scratchWrap">
-      <div class="scratchCard">
-        <div class="scratchMessage" id="scratchMessage">
-          Jaan I miss you and I love you. ❤️
+      <div class="scratchWrap">
+        <div class="scratchCard">
+          <div class="scratchMessage" id="scratchMessage">
+            Babu,I love you,ami bolle o na bolle o Kkhn o ei doubt koro na je ami boli nai tar mane ami love kori na,24/7,tmk onk bhalobasi. ❤️
+          </div>
+
+          <canvas id="scratchCanvas" class="scratchCanvas" width="700" height="260" aria-label="Scratch card"></canvas>
+
+          <div class="scratchHint" id="scratchHint"></div>
         </div>
-
-        <canvas id="scratchCanvas" class="scratchCanvas" width="700" height="260" aria-label="Scratch card"></canvas>
-
-        <!-- <div class="scratchHint" id="scratchHint">Scratch here to reveal the message ✨</div> -->
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section class="section soft" id="questions">
+    <div class="container">
+      <h2 class="sectionTitle">Couple Questions 💞</h2>
+      <p class="sectionSub">
+        Challenge each other with fun questions! Toma, Nafis will ask you, and you can ask Nafis. Let's see how well we know each other!
+      </p>
+
+      <div class="dualQuestionWrap">
+        <div class="questionSide">
+          <div class="questionPanelTop">
+            <h3 class="questionSideTitle">His Questions 💙</h3>
+            <div class="scoreBadge">Score: <span id="hisQuestionScore">0</span></div>
+          </div>
+
+          <div class="questionCard">
+            <label class="diaryLabel" for="hisQuestionText">Question</label>
+            <textarea id="hisQuestionText" class="diaryText" placeholder="Example: Coffee or Tea?" rows="3"></textarea>
+
+            <label class="diaryLabel" for="hisOptionAText">Option A</label>
+            <input id="hisOptionAText" class="answerInput" type="text" placeholder="Example: Coffee">
+
+            <label class="diaryLabel" for="hisOptionBText" style="margin-top:12px;">Option B</label>
+            <input id="hisOptionBText" class="answerInput" type="text" placeholder="Example: Tea">
+
+            <label class="diaryLabel" for="hisCorrectAnswerSelect" style="margin-top:12px;">Correct Answer</label>
+            <select id="hisCorrectAnswerSelect" class="answerInput">
+              <option value="">Select correct answer</option>
+              <option value="A">Option A</option>
+              <option value="B">Option B</option>
+            </select>
+
+            <div class="diaryActions">
+              <button class="btn primary" id="saveHisQuestionBtn" type="button">Save His Question 💌</button>
+              <button class="btn ghost" id="refreshHisQuestionBtn" type="button">Refresh</button>
+            </div>
+
+            <p class="diaryHint" id="hisQuestionHint" aria-live="polite"></p>
+          </div>
+
+          <div class="questionListCard">
+            <div class="diaryListHeader">
+              <h3 class="diaryListTitle">Saved His Questions</h3>
+            </div>
+            <div class="questionList" id="hisQuestionList"></div>
+          </div>
+        </div>
+
+        <div class="questionSide">
+          <div class="questionPanelTop">
+            <h3 class="questionSideTitle">Her Questions 💖</h3>
+            <div class="scoreBadge">Score: <span id="herQuestionScore">0</span></div>
+          </div>
+
+          <div class="questionCard">
+            <label class="diaryLabel" for="herQuestionText">Question</label>
+            <textarea id="herQuestionText" class="diaryText" placeholder="Example: Movie or Long Drive?" rows="3"></textarea>
+
+            <label class="diaryLabel" for="herOptionAText">Option A</label>
+            <input id="herOptionAText" class="answerInput" type="text" placeholder="Example: Movie">
+
+            <label class="diaryLabel" for="herOptionBText" style="margin-top:12px;">Option B</label>
+            <input id="herOptionBText" class="answerInput" type="text" placeholder="Example: Long Drive">
+
+            <label class="diaryLabel" for="herCorrectAnswerSelect" style="margin-top:12px;">Correct Answer</label>
+            <select id="herCorrectAnswerSelect" class="answerInput">
+              <option value="">Select correct answer</option>
+              <option value="A">Option A</option>
+              <option value="B">Option B</option>
+            </select>
+
+            <div class="diaryActions">
+              <button class="btn primary" id="saveHerQuestionBtn" type="button">Save Her Question 💌</button>
+              <button class="btn ghost" id="refreshHerQuestionBtn" type="button">Refresh</button>
+            </div>
+
+            <p class="diaryHint" id="herQuestionHint" aria-live="polite"></p>
+          </div>
+
+          <div class="questionListCard">
+            <div class="diaryListHeader">
+              <h3 class="diaryListTitle">Saved Her Questions</h3>
+            </div>
+            <div class="questionList" id="herQuestionList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="afterfight">
+    <div class="container">
+      <h2 class="sectionTitle">Open After Fight ❤️‍🩹</h2>
+      <p class="sectionSub">
+        A hidden message only for the moment we need softness the most.
+      </p>
+
+      <div class="fightGiftWrap">
+        <button class="fightGiftCard" id="fightRevealBtn" type="button">
+          <div class="fightGiftIcon">🎁</div>
+          <div class="fightGiftTitle">Open After Fight</div>
+          <div class="fightGiftSub">Tap to reveal my message</div>
+        </button>
+
+        <div class="fightHiddenCard" id="fightHiddenCard">
+          <p>
+            If you're reading this, it means we had a disagreement. And that's okay.
+          </p>
+
+          <p>
+            But before anger becomes bigger than love, please remember this:
+          </p>
+
+          <ul class="fightList">
+            <li>You matter more than any argument.</li>
+            <li>Our relationship matters more than being right.</li>
+            <li>I never want to hurt you.</li>
+            <li>I want to understand you, not defeat you.</li>
+          </ul>
+
+          <p>
+            Let's breathe. Let's slow down. Let's talk with love.
+          </p>
+
+          <p class="fightEnd">
+            Because even after everything… I still choose you. ❤️
+          </p>
+
+          <div class="diaryActions" style="justify-content:center;">
+            <button class="btn primary" id="hugBtn" type="button">Send Virtual Hug 🤗</button>
+            <button class="btn ghost" id="fightHideBtn" type="button">Hide Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
     <p>Made with ❤️ just for you.</p>
@@ -580,7 +718,7 @@
 
   <script>
     const SECRET_CODE = "1501";
-    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbzxZhgODQgQP2BTBS1D2v4NXQNO2if5KRPxiPJwj_R_alAiA_wD-xx-nm0KJNg86YF1BQ/exec";
+    const DIARY_API_URL = "https://script.google.com/macros/s/AKfycbzoNckHPsFpWMDnQ250QObESK7J213p3X0bPufS-cquU7w_sgFjsGk7DmulDgb7cTvxmA/exec";
     const loveStart = new Date("2025-01-13T18:11:59Z");
     const DIST_FROM = { name: "Banasree", lat: 23.754502, lon: 90.441620 };
     const DIST_TO   = { name: "Solmid", lat: 23.80129032537606, lon: 90.42948967046743 };
@@ -666,18 +804,13 @@
         meter = Math.round(start + (target - start) * p);
         const shown = Math.min(100, meter);
         meterFill.style.width = shown + "%";
-        meterValue.textContent = meter.toLocaleString() + "%";
+        meterValue.textContent = shown + "%";
         meterBar?.setAttribute("aria-valuenow", String(shown));
         if (p < 1) requestAnimationFrame(frame);
       }
       requestAnimationFrame(frame);
     }
     animateMeterTo(100);
-
-    setInterval(() => {
-      meter += Math.floor(1 + Math.random() * 5);
-      meterValue.textContent = meter.toLocaleString() + "%";
-    }, 1000);
 
     const surpriseBtn = document.getElementById("surpriseBtn");
     const surpriseText = document.getElementById("surpriseText");
@@ -1605,129 +1738,489 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
+
     const scratchCanvas = document.getElementById("scratchCanvas");
-const scratchHint = document.getElementById("scratchHint");
+    const scratchHint = document.getElementById("scratchHint");
 
-if (scratchCanvas) {
-  const sctx = scratchCanvas.getContext("2d");
-  let scratching = false;
-  let scratchDone = false;
+    if (scratchCanvas) {
+      const sctx = scratchCanvas.getContext("2d");
+      let scratching = false;
+      let scratchDone = false;
 
-  function resizeScratchCanvas() {
-    const rect = scratchCanvas.getBoundingClientRect();
-    const ratio = window.devicePixelRatio || 1;
+      function resizeScratchCanvas() {
+        const rect = scratchCanvas.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
 
-    scratchCanvas.width = Math.floor(rect.width * ratio);
-    scratchCanvas.height = Math.floor(rect.height * ratio);
+        scratchCanvas.width = Math.floor(rect.width * ratio);
+        scratchCanvas.height = Math.floor(rect.height * ratio);
 
-    sctx.setTransform(1, 0, 0, 1, 0, 0);
-    sctx.scale(ratio, ratio);
+        sctx.setTransform(1, 0, 0, 1, 0, 0);
+        sctx.scale(ratio, ratio);
 
-    drawScratchCover();
-  }
+        drawScratchCover();
+      }
 
-  function drawScratchCover() {
-    const w = scratchCanvas.getBoundingClientRect().width;
-    const h = scratchCanvas.getBoundingClientRect().height;
+      function drawScratchCover() {
+        const w = scratchCanvas.getBoundingClientRect().width;
+        const h = scratchCanvas.getBoundingClientRect().height;
 
-    sctx.globalCompositeOperation = "source-over";
+        sctx.globalCompositeOperation = "source-over";
 
-    const grad = sctx.createLinearGradient(0, 0, w, h);
-    grad.addColorStop(0, "#cfcfd6");
-    grad.addColorStop(0.5, "#b8b8c2");
-    grad.addColorStop(1, "#e5e5ec");
+        const grad = sctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#cfcfd6");
+        grad.addColorStop(0.5, "#b8b8c2");
+        grad.addColorStop(1, "#e5e5ec");
 
-    sctx.clearRect(0, 0, w, h);
-    sctx.fillStyle = grad;
-    sctx.fillRect(0, 0, w, h);
+        sctx.clearRect(0, 0, w, h);
+        sctx.fillStyle = grad;
+        sctx.fillRect(0, 0, w, h);
 
-    for (let i = 0; i < 900; i++) {
-      const x = Math.random() * w;
-      const y = Math.random() * h;
-      const a = Math.random() * 0.18;
-      sctx.fillStyle = `rgba(255,255,255,${a})`;
-      sctx.fillRect(x, y, 2, 2);
+        for (let i = 0; i < 900; i++) {
+          const x = Math.random() * w;
+          const y = Math.random() * h;
+          const a = Math.random() * 0.18;
+          sctx.fillStyle = `rgba(255,255,255,${a})`;
+          sctx.fillRect(x, y, 2, 2);
+        }
+
+        sctx.fillStyle = "rgba(255,255,255,0.22)";
+        sctx.font = "700 28px Poppins, sans-serif";
+        sctx.textAlign = "center";
+        sctx.fillText("Scratch Me", w / 2, h / 2);
+      }
+
+      function getScratchPos(e) {
+        const rect = scratchCanvas.getBoundingClientRect();
+        const point = e.touches ? e.touches[0] : e;
+        return {
+          x: point.clientX - rect.left,
+          y: point.clientY - rect.top
+        };
+      }
+
+      function scratchAt(x, y) {
+        sctx.globalCompositeOperation = "destination-out";
+        sctx.beginPath();
+        sctx.arc(x, y, 22, 0, Math.PI * 2);
+        sctx.fill();
+      }
+
+      function checkScratchPercent() {
+        const w = scratchCanvas.width;
+        const h = scratchCanvas.height;
+        const data = sctx.getImageData(0, 0, w, h).data;
+
+        let transparent = 0;
+        for (let i = 3; i < data.length; i += 4) {
+          if (data[i] === 0) transparent++;
+        }
+
+        const percent = transparent / (data.length / 4);
+
+        if (percent > 0.45 && !scratchDone) {
+          scratchDone = true;
+          if (scratchHint) {
+            scratchHint.textContent = "Message revealed ❤️";
+          }
+          scratchCanvas.style.transition = "opacity 0.6s ease";
+          scratchCanvas.style.opacity = "0";
+          fireConfetti(true);
+          showToast("Hidden message revealed 💌");
+        }
+      }
+
+      function startScratch(e) {
+        if (scratchDone) return;
+        scratching = true;
+        const pos = getScratchPos(e);
+        scratchAt(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function moveScratch(e) {
+        if (!scratching || scratchDone) return;
+        const pos = getScratchPos(e);
+        scratchAt(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function endScratch() {
+        if (!scratching) return;
+        scratching = false;
+        checkScratchPercent();
+      }
+
+      scratchCanvas.addEventListener("mousedown", startScratch);
+      scratchCanvas.addEventListener("mousemove", moveScratch);
+      window.addEventListener("mouseup", endScratch);
+
+      scratchCanvas.addEventListener("touchstart", startScratch, { passive: false });
+      scratchCanvas.addEventListener("touchmove", moveScratch, { passive: false });
+      window.addEventListener("touchend", endScratch);
+
+      window.addEventListener("resize", resizeScratchCanvas);
+      resizeScratchCanvas();
     }
-
-    sctx.fillStyle = "rgba(255,255,255,0.22)";
-    sctx.font = "700 28px Poppins, sans-serif";
-    sctx.textAlign = "center";
-    sctx.fillText("Scratch Me", w / 2, h / 2);
-  }
-
-  function getScratchPos(e) {
-    const rect = scratchCanvas.getBoundingClientRect();
-    const point = e.touches ? e.touches[0] : e;
-    return {
-      x: point.clientX - rect.left,
-      y: point.clientY - rect.top
-    };
-  }
-
-  function scratchAt(x, y) {
-    sctx.globalCompositeOperation = "destination-out";
-    sctx.beginPath();
-    sctx.arc(x, y, 22, 0, Math.PI * 2);
-    sctx.fill();
-  }
-
-  function checkScratchPercent() {
-    const w = scratchCanvas.width;
-    const h = scratchCanvas.height;
-    const data = sctx.getImageData(0, 0, w, h).data;
-
-    let transparent = 0;
-    for (let i = 3; i < data.length; i += 4) {
-      if (data[i] === 0) transparent++;
-    }
-
-    const percent = transparent / (data.length / 4);
-
-    if (percent > 0.45 && !scratchDone) {
-      scratchDone = true;
-      scratchHint.textContent = "Message revealed ❤️";
-      scratchCanvas.style.transition = "opacity 0.6s ease";
-      scratchCanvas.style.opacity = "0";
-      fireConfetti(true);
-      showToast("Hidden message revealed 💌");
-    }
-  }
-
-  function startScratch(e) {
-    if (scratchDone) return;
-    scratching = true;
-    const pos = getScratchPos(e);
-    scratchAt(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  function moveScratch(e) {
-    if (!scratching || scratchDone) return;
-    const pos = getScratchPos(e);
-    scratchAt(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  function endScratch() {
-    if (!scratching) return;
-    scratching = false;
-    checkScratchPercent();
-  }
-
-  scratchCanvas.addEventListener("mousedown", startScratch);
-  scratchCanvas.addEventListener("mousemove", moveScratch);
-  window.addEventListener("mouseup", endScratch);
-
-  scratchCanvas.addEventListener("touchstart", startScratch, { passive: false });
-  scratchCanvas.addEventListener("touchmove", moveScratch, { passive: false });
-  window.addEventListener("touchend", endScratch);
-
-  window.addEventListener("resize", resizeScratchCanvas);
-  resizeScratchCanvas();
-}
 
     renderDiary();
     loadMemories();
+
+    const hisQuestionText = document.getElementById("hisQuestionText");
+    const hisOptionAText = document.getElementById("hisOptionAText");
+    const hisOptionBText = document.getElementById("hisOptionBText");
+    const hisCorrectAnswerSelect = document.getElementById("hisCorrectAnswerSelect");
+    const saveHisQuestionBtn = document.getElementById("saveHisQuestionBtn");
+    const refreshHisQuestionBtn = document.getElementById("refreshHisQuestionBtn");
+    const hisQuestionList = document.getElementById("hisQuestionList");
+    const hisQuestionHint = document.getElementById("hisQuestionHint");
+    const hisQuestionScore = document.getElementById("hisQuestionScore");
+
+    const herQuestionText = document.getElementById("herQuestionText");
+    const herOptionAText = document.getElementById("herOptionAText");
+    const herOptionBText = document.getElementById("herOptionBText");
+    const herCorrectAnswerSelect = document.getElementById("herCorrectAnswerSelect");
+    const saveHerQuestionBtn = document.getElementById("saveHerQuestionBtn");
+    const refreshHerQuestionBtn = document.getElementById("refreshHerQuestionBtn");
+    const herQuestionList = document.getElementById("herQuestionList");
+    const herQuestionHint = document.getElementById("herQuestionHint");
+    const herQuestionScore = document.getElementById("herQuestionScore");
+
+    function setHisQuestionHint(msg){
+      if (hisQuestionHint) hisQuestionHint.textContent = msg || "";
+    }
+
+    function setHerQuestionHint(msg){
+      if (herQuestionHint) herQuestionHint.textContent = msg || "";
+    }
+
+    function loadAnsweredMap(key){
+      try{
+        return JSON.parse(localStorage.getItem(key) || "{}");
+      }catch{
+        return {};
+      }
+    }
+
+    function saveAnsweredMap(key, obj){
+      localStorage.setItem(key, JSON.stringify(obj));
+    }
+
+    function updateSeparateScores(){
+      const hisMap = loadAnsweredMap("hisAnsweredQuestions");
+      const herMap = loadAnsweredMap("herAnsweredQuestions");
+
+      const hisScore = Object.values(hisMap).filter(v => v === true).length;
+      const herScore = Object.values(herMap).filter(v => v === true).length;
+
+      if (hisQuestionScore) hisQuestionScore.textContent = String(hisScore);
+      if (herQuestionScore) herQuestionScore.textContent = String(herScore);
+    }
+
+    async function apiListQuestions(){
+      const res = await fetch(`${DIARY_API_URL}?action=listQuestions`);
+      return res.json();
+    }
+
+    async function apiAddQuestion(text, optionA, optionB, correctAnswer, owner){
+      const payload = {
+        action: "addQuestion",
+        text: text.trim(),
+        optionA: optionA.trim(),
+        optionB: optionB.trim(),
+        correctAnswer: correctAnswer.trim(),
+        owner: owner.trim()
+      };
+
+      const res = await fetch(DIARY_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      return res.json();
+    }
+
+    async function apiDeleteQuestion(id){
+      const payload = { action: "deleteQuestion", id };
+
+      const res = await fetch(DIARY_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      return res.json();
+    }
+
+    function buildQuestionCard(q, side){
+      const answeredKey = side === "his" ? "hisAnsweredQuestions" : "herAnsweredQuestions";
+      const answeredMap = loadAnsweredMap(answeredKey);
+      const alreadyAnswered = Object.prototype.hasOwnProperty.call(answeredMap, q.id);
+
+      return `
+        <div class="questionItem" data-id="${escapeHtmlSafe(q.id)}" data-side="${escapeHtmlSafe(side)}">
+          <div class="noteTop">
+            <div class="noteDate">${escapeHtmlSafe(formatDate(q.createdAt))}</div>
+            <button class="noteDel questionDel" type="button" aria-label="Delete question">🗑</button>
+          </div>
+
+          <div class="questionTitle">${escapeHtmlSafe(q.text)}</div>
+
+          <div class="questionOptions">
+            <label class="optionLabel">
+              <input type="radio" name="q_${escapeHtmlSafe(q.id)}" value="A" ${alreadyAnswered ? "disabled" : ""}>
+              <span>${escapeHtmlSafe(q.optionA || "Option A")}</span>
+            </label>
+
+            <label class="optionLabel">
+              <input type="radio" name="q_${escapeHtmlSafe(q.id)}" value="B" ${alreadyAnswered ? "disabled" : ""}>
+              <span>${escapeHtmlSafe(q.optionB || "Option B")}</span>
+            </label>
+          </div>
+
+          <div class="diaryActions">
+            <button class="btn primary submitGuessBtn" type="button" data-submit-id="${escapeHtmlSafe(q.id)}" data-side="${escapeHtmlSafe(side)}" ${alreadyAnswered ? "disabled" : ""}>
+              Submit Answer 💞
+            </button>
+          </div>
+
+          <div class="questionResult ${alreadyAnswered ? "show " + (answeredMap[q.id] ? "correct" : "wrong") : ""}" data-result-id="${escapeHtmlSafe(q.id)}">
+            ${
+              alreadyAnswered
+                ? (answeredMap[q.id]
+                    ? "Correct answer 🎉 +1 point"
+                    : `Wrong answer 💔 The correct answer was <strong>${escapeHtmlSafe(q.correctAnswer === "A" ? q.optionA : q.optionB)}</strong>`)
+                : ""
+            }
+          </div>
+
+          <div class="questionMeta">
+            Hidden correct answer is already saved.
+          </div>
+        </div>
+      `;
+    }
+
+    async function renderDualQuestions(){
+      if (hisQuestionList) hisQuestionList.innerHTML = `<div class="noteItem"><p class="noteText">Loading…</p></div>`;
+      if (herQuestionList) herQuestionList.innerHTML = `<div class="noteItem"><p class="noteText">Loading…</p></div>`;
+
+      try{
+        const data = await apiListQuestions();
+        if (!data.ok) throw new Error(data.error || "Failed");
+
+        const allQuestions = data.questions || [];
+        const hisQuestions = allQuestions.filter(q => String(q.owner || "").toLowerCase() === "his");
+        const herQuestions = allQuestions.filter(q => String(q.owner || "").toLowerCase() === "her");
+
+        if (hisQuestionList){
+          hisQuestionList.innerHTML = hisQuestions.length
+            ? hisQuestions.map(q => buildQuestionCard(q, "his")).join("")
+            : `<div class="noteItem"><p class="noteText">No his questions yet ❤️</p></div>`;
+        }
+
+        if (herQuestionList){
+          herQuestionList.innerHTML = herQuestions.length
+            ? herQuestions.map(q => buildQuestionCard(q, "her")).join("")
+            : `<div class="noteItem"><p class="noteText">No her questions yet ❤️</p></div>`;
+        }
+
+        document.querySelectorAll(".submitGuessBtn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-submit-id");
+            const side = btn.getAttribute("data-side");
+            const card = btn.closest(".questionItem");
+            const picked = card.querySelector(`input[name="q_${id}"]:checked`);
+            const resultBox = card.querySelector(`[data-result-id="${id}"]`);
+
+            if (!picked){
+              if (side === "his") setHisQuestionHint("Please select an option first ❤️");
+              if (side === "her") setHerQuestionHint("Please select an option first ❤️");
+              return;
+            }
+
+            const question = allQuestions.find(q => q.id === id);
+            if (!question) return;
+
+            const isCorrect = picked.value === question.correctAnswer;
+            const storageKey = side === "his" ? "hisAnsweredQuestions" : "herAnsweredQuestions";
+            const answeredMap = loadAnsweredMap(storageKey);
+
+            if (!Object.prototype.hasOwnProperty.call(answeredMap, id)){
+              answeredMap[id] = isCorrect;
+              saveAnsweredMap(storageKey, answeredMap);
+            }
+
+            resultBox.classList.add("show");
+            resultBox.classList.remove("correct", "wrong");
+
+            if (isCorrect){
+              resultBox.classList.add("correct");
+              resultBox.innerHTML = `Correct answer 🎉 +1 point`;
+              fireConfetti(true);
+              showToast("Correct answer 💖");
+            } else {
+              resultBox.classList.add("wrong");
+              resultBox.innerHTML = `Wrong answer 💔 The correct answer was <strong>${escapeHtmlSafe(question.correctAnswer === "A" ? question.optionA : question.optionB)}</strong>`;
+              showToast("Oops, wrong answer 😅");
+            }
+
+            card.querySelectorAll(`input[name="q_${id}"]`).forEach(input => input.disabled = true);
+            btn.disabled = true;
+            updateSeparateScores();
+          });
+        });
+
+        document.querySelectorAll(".questionDel").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const card = btn.closest(".questionItem");
+            const id = card.getAttribute("data-id");
+            const side = card.getAttribute("data-side");
+
+            try{
+              if (side === "his") setHisQuestionHint("Deleting question…");
+              if (side === "her") setHerQuestionHint("Deleting question…");
+
+              const res = await apiDeleteQuestion(id);
+              if (!res.ok) throw new Error(res.error || "Delete failed");
+
+              const hisMap = loadAnsweredMap("hisAnsweredQuestions");
+              const herMap = loadAnsweredMap("herAnsweredQuestions");
+              delete hisMap[id];
+              delete herMap[id];
+              saveAnsweredMap("hisAnsweredQuestions", hisMap);
+              saveAnsweredMap("herAnsweredQuestions", herMap);
+
+              if (side === "his") setHisQuestionHint("Question deleted ✅");
+              if (side === "her") setHerQuestionHint("Question deleted ✅");
+
+              await renderDualQuestions();
+            }catch{
+              if (side === "his") setHisQuestionHint("Could not delete question ❌");
+              if (side === "her") setHerQuestionHint("Could not delete question ❌");
+            }
+          });
+        });
+
+        updateSeparateScores();
+
+      }catch(err){
+        if (hisQuestionList){
+          hisQuestionList.innerHTML = `<div class="noteItem"><p class="noteText">Could not load questions ❌</p></div>`;
+        }
+        if (herQuestionList){
+          herQuestionList.innerHTML = `<div class="noteItem"><p class="noteText">Could not load questions ❌</p></div>`;
+        }
+        setHisQuestionHint("Could not load questions ❌");
+        setHerQuestionHint("Could not load questions ❌");
+        console.error(err);
+      }
+    }
+
+    saveHisQuestionBtn?.addEventListener("click", async () => {
+      const text = hisQuestionText.value.trim();
+      const optionA = hisOptionAText.value.trim();
+      const optionB = hisOptionBText.value.trim();
+      const correctAnswer = hisCorrectAnswerSelect.value;
+
+      if (!text){
+        setHisQuestionHint("Write a question first ❤️");
+        return;
+      }
+      if (!optionA || !optionB){
+        setHisQuestionHint("Write both options ❤️");
+        return;
+      }
+      if (!correctAnswer){
+        setHisQuestionHint("Choose the correct answer ❤️");
+        return;
+      }
+
+      try{
+        setHisQuestionHint("Saving question…");
+        const data = await apiAddQuestion(text, optionA, optionB, correctAnswer, "his");
+        if (!data.ok) throw new Error(data.error || "Save failed");
+
+        hisQuestionText.value = "";
+        hisOptionAText.value = "";
+        hisOptionBText.value = "";
+        hisCorrectAnswerSelect.value = "";
+
+        setHisQuestionHint("His question saved 💌");
+        await renderDualQuestions();
+        fireConfetti(true);
+      }catch{
+        setHisQuestionHint("Could not save question ❌");
+      }
+    });
+
+    saveHerQuestionBtn?.addEventListener("click", async () => {
+      const text = herQuestionText.value.trim();
+      const optionA = herOptionAText.value.trim();
+      const optionB = herOptionBText.value.trim();
+      const correctAnswer = herCorrectAnswerSelect.value;
+
+      if (!text){
+        setHerQuestionHint("Write a question first ❤️");
+        return;
+      }
+      if (!optionA || !optionB){
+        setHerQuestionHint("Write both options ❤️");
+        return;
+      }
+      if (!correctAnswer){
+        setHerQuestionHint("Choose the correct answer ❤️");
+        return;
+      }
+
+      try{
+        setHerQuestionHint("Saving question…");
+        const data = await apiAddQuestion(text, optionA, optionB, correctAnswer, "her");
+        if (!data.ok) throw new Error(data.error || "Save failed");
+
+        herQuestionText.value = "";
+        herOptionAText.value = "";
+        herOptionBText.value = "";
+        herCorrectAnswerSelect.value = "";
+
+        setHerQuestionHint("Her question saved 💌");
+        await renderDualQuestions();
+        fireConfetti(true);
+      }catch{
+        setHerQuestionHint("Could not save question ❌");
+      }
+    });
+
+    refreshHisQuestionBtn?.addEventListener("click", renderDualQuestions);
+    refreshHerQuestionBtn?.addEventListener("click", renderDualQuestions);
+
+    renderDualQuestions();
+    updateSeparateScores();
+
+    const fightRevealBtn = document.getElementById("fightRevealBtn");
+    const fightHiddenCard = document.getElementById("fightHiddenCard");
+    const fightHideBtn = document.getElementById("fightHideBtn");
+    const hugBtn = document.getElementById("hugBtn");
+
+    if (fightRevealBtn && fightHiddenCard) {
+      fightRevealBtn.addEventListener("click", () => {
+        fightHiddenCard.classList.add("show");
+        showToast("Message opened ❤️");
+      });
+    }
+
+    if (fightHideBtn && fightHiddenCard) {
+      fightHideBtn.addEventListener("click", () => {
+        fightHiddenCard.classList.remove("show");
+      });
+    }
+
+    if (hugBtn) {
+      hugBtn.addEventListener("click", () => {
+        showToast("Virtual hug sent 🤗❤️");
+        fireConfetti(true);
+      });
+    }
   </script>
 </body>
 </html>

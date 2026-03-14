@@ -71,12 +71,12 @@ body[data-mood="sad"]{
   --theme-border: rgba(92,124,250,0.28);
 }
 body[data-mood="angry"]{
-  --mood1: rgb(239, 39, 9);
-  --mood2: rgb(255, 55, 0);
+  --mood1: rgba(239,39,9,0.28);
+  --mood2: rgba(255,85,40,0.18);
   --theme-accent: #f4350a;
-  --theme-accent-2: #ea3300;
-  --theme-soft: rgba(244, 74, 13, 0.977);
-  --theme-border: rgb(255, 77, 0);
+  --theme-accent-2: #ff7a45;
+  --theme-soft: rgba(244,74,13,0.12);
+  --theme-border: rgba(244,74,13,0.28);
 }
 body[data-mood="tired"]{
   --mood1: rgba(142,108,255,0.28);
@@ -190,7 +190,7 @@ body.pulseLove{
 }
 
 /* =========================
-   NAVBAR SAME LINE
+   NAVBAR
 ========================= */
 .topbar{
   position: fixed;
@@ -223,9 +223,9 @@ html[data-theme="light"] .topbar{ background: rgba(255,255,255,0.70); }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  flex-wrap: nowrap;        /* same line */
-  white-space: nowrap;      /* same line */
-  overflow-x: auto;         /* if space is small, scroll instead of going নিচে */
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
 }
@@ -837,8 +837,8 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
 .lbClose{ top: 18px; right: 18px; font-size: 18px; }
 .lbPrev{ left: 18px; top: 50%; transform: translateY(-50%); }
 .lbNext{ right: 18px; top: 50%; transform: translateY(-50%); }
-.lbPrev:hover{ transform: translateY(-50%) translateY(-2px); }
-.lbNext:hover{ transform: translateY(-50%) translateY(-2px); }
+.lbPrev:hover{ transform: translateY(calc(-50% - 2px)); }
+.lbNext:hover{ transform: translateY(calc(-50% - 2px)); }
 .lbClose:hover{ transform: translateY(-2px); }
 
 .calendarWrap{
@@ -954,7 +954,6 @@ html[data-theme="light"] .footer{ color: rgba(18,14,20,0.70); }
   color: var(--theme-accent-2);
 }
 .memoryListWrap{ margin-top: 18px; }
-.memoryList{ display: grid; gap: 12px; }
 
 .diaryWrap{
   display: grid;
@@ -988,6 +987,26 @@ html[data-theme="light"] .diaryText{
   border-color: var(--theme-border);
   box-shadow: 0 0 0 6px var(--theme-soft);
 }
+.answerInput{
+  width:100%;
+  margin-top:8px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.14);
+  padding:10px;
+  background:rgba(0,0,0,0.25);
+  color:var(--text);
+}
+.answerInput:focus{
+  outline:none;
+  border-color: var(--theme-border);
+  box-shadow: 0 0 0 6px var(--theme-soft);
+}
+html[data-theme="light"] .answerInput{
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(18,14,20,0.14);
+  color: rgba(18,14,20,0.90);
+}
+
 .diaryActions{
   display:flex;
   gap: 10px;
@@ -1023,20 +1042,19 @@ html[data-theme="light"] .diaryHint{ color: rgba(18,14,20,0.70); }
   font-weight: 900;
   letter-spacing: -0.2px;
 }
-.diaryList{
+.diaryList,
+.memoryList,
+.questionList{
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+.diaryList{
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 6px;
   flex: 1;
   scroll-behavior: smooth;
-}
-.memoryList{
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .diaryList::-webkit-scrollbar,
@@ -1130,12 +1148,10 @@ html[data-theme="light"] .calDay.selected{
   background: linear-gradient(135deg, var(--theme-soft), rgba(255,255,255,0.65));
   border-color: var(--theme-border);
 }
-
 html[data-theme="light"] .diaryList::-webkit-scrollbar-track,
 html[data-theme="light"] .memoryList::-webkit-scrollbar-track{
   background: rgba(0,0,0,0.06);
 }
-
 html[data-theme="light"] .noteItem{
   background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.86));
   border: 1px solid rgba(0,0,0,0.14);
@@ -1225,6 +1241,249 @@ html[data-theme="light"] .noteDel:hover{
 .lockHint{ margin: 12px 0 0; min-height: 18px; color: rgba(255,255,255,0.78); }
 .lockSmall{ margin: 10px 0 0; font-size: 12px; color: rgba(255,255,255,0.62); }
 
+/* =========================
+   SCRATCH CARD
+========================= */
+.scratchWrap{
+  display: flex;
+  justify-content: center;
+}
+.scratchCard{
+  position: relative;
+  width: min(700px, 92vw);
+  height: 260px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: var(--shadow2);
+}
+.scratchMessage{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 28px;
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 800;
+  line-height: 1.6;
+  color: var(--theme-accent-2);
+  background:
+    radial-gradient(circle at top left, var(--theme-soft), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(255,255,255,0.08), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+}
+.scratchCanvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+.scratchCanvas:active{
+  cursor: grabbing;
+}
+.scratchHint{
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  color: rgba(255,255,255,0.88);
+  pointer-events: none;
+}
+html[data-theme="light"] .scratchHint{
+  background: rgba(255,255,255,0.72);
+  color: rgba(18,14,20,0.85);
+  border-color: rgba(18,14,20,0.12);
+}
+
+/* =========================
+   DUAL QUESTIONS
+========================= */
+.dualQuestionWrap{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+.questionSide{
+  display:grid;
+  gap:14px;
+}
+.questionPanelTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.questionSideTitle{
+  margin:0;
+  font-size:24px;
+  font-weight:900;
+}
+.questionCard,
+.questionListCard{
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:26px;
+  padding:18px;
+  box-shadow: var(--shadow2);
+}
+.questionItem{
+  border-radius:20px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.06);
+}
+.questionTitle{
+  font-weight:800;
+  font-size:18px;
+  margin-bottom:10px;
+}
+.questionOptions{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.optionLabel{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;
+  transition:0.2s ease;
+}
+.optionLabel:hover{
+  border-color: var(--theme-border);
+  background: var(--theme-soft);
+}
+.optionLabel input{
+  accent-color: var(--theme-accent);
+}
+.questionMeta{
+  margin-top:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+.questionResult{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:16px;
+  font-weight:700;
+  display:none;
+}
+.questionResult.show{
+  display:block;
+}
+.questionResult.correct{
+  background: rgba(40, 180, 90, 0.16);
+  border: 1px solid rgba(40, 180, 90, 0.35);
+}
+.questionResult.wrong{
+  background: rgba(255, 77, 109, 0.14);
+  border: 1px solid rgba(255, 77, 109, 0.32);
+}
+.scoreBadge{
+  padding:8px 12px;
+  border-radius:999px;
+  background: var(--theme-soft);
+  border:1px solid var(--theme-border);
+  font-size:13px;
+  font-weight:800;
+}
+
+/* =========================
+   OPEN AFTER FIGHT
+========================= */
+.fightGiftWrap{
+  max-width: 760px;
+  margin: 0 auto;
+}
+.fightGiftCard{
+  width:100%;
+  border:none;
+  cursor:pointer;
+  border-radius:28px;
+  padding:28px;
+  background: linear-gradient(135deg, var(--theme-accent), var(--theme-accent-2));
+  color:white;
+  box-shadow: var(--shadow2);
+  transition:0.25s ease;
+  display:block;
+  text-align:center;
+}
+.fightGiftCard:hover{
+  transform: translateY(-3px);
+}
+.fightGiftIcon{
+  font-size:42px;
+  margin-bottom:10px;
+}
+.fightGiftTitle{
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.fightGiftSub{
+  font-size:14px;
+  opacity:0.95;
+}
+.fightHiddenCard{
+  display:none;
+  margin-top:16px;
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.04));
+  border:1px solid rgba(255,255,255,0.16);
+  border-radius:26px;
+  padding:26px;
+  text-align:center;
+  box-shadow: var(--shadow2);
+}
+.fightHiddenCard.open{
+  display:block;
+  animation: fightReveal 0.35s ease;
+}
+@keyframes fightReveal{
+  from{
+    opacity:0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to{
+    opacity:1;
+    transform: translateY(0) scale(1);
+  }
+}
+.fightHiddenCard p{
+  line-height:1.8;
+}
+.fightList{
+  list-style:none;
+  padding:0;
+  margin:18px 0;
+}
+.fightList li{
+  margin:8px 0;
+  font-weight:600;
+}
+.fightEnd{
+  font-weight:800;
+  margin-top:16px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 980px){
   .grid3{ grid-template-columns: repeat(2, 1fr); }
   .gallery{ grid-template-columns: repeat(2, 1fr); }
@@ -1236,6 +1495,7 @@ html[data-theme="light"] .noteDel:hover{
   .distanceWrap{ grid-template-columns: 1fr; }
   .moodWrap{ grid-template-columns: 1fr; }
   .calendarWrap{ grid-template-columns: 1fr; }
+  .dualQuestionWrap{ grid-template-columns: 1fr; }
   .diaryListCard{ height: 460px; }
 
   .topbar{
@@ -1267,80 +1527,7 @@ html[data-theme="light"] .noteDel:hover{
     font-size: 11px;
     padding: 7px 9px;
   }
-}
 
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
-  html{ scroll-behavior: auto; }
-}
-.scratchWrap{
-  display: flex;
-  justify-content: center;
-}
-
-.scratchCard{
-  position: relative;
-  width: min(700px, 92vw);
-  height: 260px;
-  border-radius: 28px;
-  overflow: hidden;
-  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.05));
-  border: 1px solid rgba(255,255,255,0.16);
-  box-shadow: var(--shadow2);
-}
-
-.scratchMessage{
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 28px;
-  font-size: clamp(20px, 2.5vw, 32px);
-  font-weight: 800;
-  line-height: 1.6;
-  color: var(--theme-accent-2);
-  background:
-    radial-gradient(circle at top left, var(--theme-soft), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(255,255,255,0.08), transparent 35%),
-    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-}
-
-.scratchCanvas{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: none;
-}
-
-.scratchCanvas:active{
-  cursor: grabbing;
-}
-
-.scratchHint{
-  position: absolute;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.14);
-  backdrop-filter: blur(10px);
-  font-size: 12px;
-  color: rgba(255,255,255,0.88);
-  pointer-events: none;
-}
-
-html[data-theme="light"] .scratchHint{
-  background: rgba(255,255,255,0.72);
-  color: rgba(18,14,20,0.85);
-  border-color: rgba(18,14,20,0.12);
-}
-
-@media (max-width: 560px){
   .scratchCard{
     height: 220px;
   }
@@ -1349,4 +1536,9 @@ html[data-theme="light"] .scratchHint{
     padding: 22px;
     font-size: 20px;
   }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+  html{ scroll-behavior: auto; }
 }
