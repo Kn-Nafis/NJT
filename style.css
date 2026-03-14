@@ -1407,6 +1407,9 @@ html[data-theme="light"] .scratchHint{
 /* =========================
    OPEN AFTER FIGHT
 ========================= */
+/* =========================
+   OPEN AFTER FIGHT
+========================= */
 .fightGiftWrap{
   max-width: 760px;
   margin: 0 auto;
@@ -1450,7 +1453,7 @@ html[data-theme="light"] .scratchHint{
   text-align:center;
   box-shadow: var(--shadow2);
 }
-.fightHiddenCard.open{
+.fightHiddenCard.show{
   display:block;
   animation: fightReveal 0.35s ease;
 }
@@ -1480,6 +1483,7 @@ html[data-theme="light"] .scratchHint{
   font-weight:800;
   margin-top:16px;
 }
+
 
 /* =========================
    RESPONSIVE
